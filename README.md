@@ -4,4 +4,5 @@ Proyecto que es para la generación y autorizciones de solicitudes o requisicion
 
 ## Instalacion
 
-    1. git clone
+    1. git clone https://github.com/cyberpluscancun/front-comprasplus.git
+    2. nmp install
