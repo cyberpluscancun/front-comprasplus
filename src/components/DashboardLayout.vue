@@ -23,7 +23,8 @@ const goToPage = (page) => {
 </script>
 
 <template>
-  <div class="w-full h-full bg-background overflow-y-auto">
+  <div class="w-full h-full bg-background">
+
     <div class="m-3.5 mt-3.5">
       <nav class="h-[calc(100vh-87vh)] bg-purple rounded-lg">
         <div class="grid place-content-start">
@@ -77,7 +78,7 @@ const goToPage = (page) => {
                 <label for="first_name"
                        class="block text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
                 <input type="text" id="first_name"
-                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[5.6ren] p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       class="bg-gray-50 border w-[5.6ren] h-[2rem] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="Cantidad" required />
               </div>
               <div class="ml-3.5 w-full grid place-items-start">
@@ -92,7 +93,7 @@ const goToPage = (page) => {
               <label for="company"
                      class="block text-sm font-medium text-gray-900 dark:text-white">Comentarios</label>
               <input type="text" id="company"
-                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     class="bg-gray-50 h-[2rem] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                      placeholder="Comentarios..." required />
             </div>
             <div class="grid place-items-end mt-2.5">
@@ -111,7 +112,7 @@ const goToPage = (page) => {
       </div>
     </div>
 
-    <div id="item-card-view-container" class="m-3.5 ">
+    <div id="item-card-view-container" class="m-3.5 overflow-y-auto h-[calc(100vh-20rem)] ">
       <div v-for="item in paginatedItems" :key="item">
         <ItemCardView />
       </div>
@@ -132,7 +133,7 @@ const goToPage = (page) => {
               <button
                 @click="goToPage(page)"
                 :class="{
-      'bg-primary text-text-white': page === currentPage,
+      'bg-primary text-text-white border border-gray-300': page === currentPage,
       'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700': page !== currentPage
     }"
                 class="flex items-center justify-center px-3 h-8 leading-tight border"
@@ -150,6 +151,7 @@ const goToPage = (page) => {
                 Next
               </button>
             </li>
+
           </ul>
         </nav>
       </div>
@@ -158,6 +160,7 @@ const goToPage = (page) => {
 
     <router-view />
   </div>
+
 </template>
 
 <style scoped>
