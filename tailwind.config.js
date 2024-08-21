@@ -16,9 +16,12 @@ export default {
     colors: {
       'primary': '#007aff',
       'purple': '#d8e4ff',
+      'purple2': '#e9f0ff',
       'accent': '#d8e4ff',
       'card': '#ebedef',
       'background': '#f7f9fc',
+      'success': '#53b44d',
+      'error': '#ff2e2e',
       'gray-dark': '#273444',
       'gray': '#9c9ca0',
       'gray-light': '#d3dce6',
