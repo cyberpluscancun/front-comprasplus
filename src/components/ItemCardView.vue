@@ -22,7 +22,7 @@ function expandCard() {
           <div>
             <label for="quantity"
                    class="block text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
-            <input type="text" id="quantity"
+            <input type="number" id="quantity"
                    class="bg-gray-50 h-[2rem] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                    placeholder="Cantidad" required />
           </div>
@@ -57,7 +57,7 @@ function expandCard() {
             </button>
 
             <!-- Botones al final -->
-            <div class="flex space-x-2">
+            <div class="flex space-x-2 button-group">
               <button type="submit"
                       class="px-2 py-1 text-xs font-medium text-center inline-flex items-center text-text-white bg-gray hover:bg-primary rounded">
                 <svg class="mr-1 w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
@@ -78,7 +78,7 @@ function expandCard() {
                 Editar
               </button>
 
-              <button type="submit"
+              <button type="button"
                       class="px-2 py-1 text-xs font-medium text-center inline-flex items-center text-text-white bg-gray hover:bg-primary rounded">
                 <svg class=" mr-1 w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
                      xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -92,8 +92,7 @@ function expandCard() {
         </div>
 
         <!--   CardExpanded     -->
-        <div v-else class="mt-2.5">
-
+        <div v-else class="mt-2.5 button-group">
           <div class="gap-6 mb-2">
             <div class="flex"> <!-- Utiliza items-center para alinear los elementos verticalmente -->
               <div class="w-full">
@@ -104,7 +103,7 @@ function expandCard() {
                        placeholder="Proveedor" required />
               </div>
               <div class="ml-2 mt-5"> <!-- Añade un margen a la izquierda para separar el botón del input -->
-                <button type="submit"
+                <button type="button"
                         class="h-[2rem] px-2 py-1 text-xs font-medium text-center inline-flex items-center text-text-white bg-gray hover:bg-primary rounded">
                   <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -116,7 +115,7 @@ function expandCard() {
                 </button>
               </div>
               <div class="ml-2 mt-5"> <!-- Añade un margen a la izquierda para separar el botón del input -->
-                <button type="submit"
+                <button type="button"
                         class="h-[2rem] px-2 py-1 text-xs font-medium text-center inline-flex items-center text-text-white bg-gray hover:bg-primary rounded">
                   <svg class="mr-1 w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -136,7 +135,7 @@ function expandCard() {
                        placeholder="Clave" required />
               </div>
               <div class="ml-2 mt-5"> <!-- Añade un margen a la izquierda para separar el botón del input -->
-                <button type="submit"
+                <button type="button"
                         class="h-[2rem] px-2 py-1 text-xs font-medium text-center inline-flex items-center text-text-white bg-gray hover:bg-primary rounded">
                   <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -148,7 +147,7 @@ function expandCard() {
                 </button>
               </div>
               <div class="ml-2 mt-5"> <!-- Añade un margen a la izquierda para separar el botón del input -->
-                <button type="submit"
+                <button type="button"
                         class="h-[2rem] px-2 py-1 text-xs font-medium text-center inline-flex items-center text-text-white bg-gray hover:bg-primary rounded">
                   <svg class="mr-1 w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -168,7 +167,7 @@ function expandCard() {
               <div class="ml-3.5">
                 <label for="unitPrice"
                        class="block text-sm font-medium text-gray-900 dark:text-white">Precio Unitario</label>
-                <input type="text" id="unitPrice"
+                <input type="number" id="unitPrice"
                        class="bg-gray-50 w-[8rem] h-[2rem] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="Precio Unitario" required />
               </div>
@@ -212,8 +211,6 @@ function expandCard() {
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </form>
@@ -222,5 +219,41 @@ function expandCard() {
 
 
 <style scoped>
+/* Estilos por defecto (para resoluciones más grandes) */
 
+/* Media query para dispositivos móviles */
+@media (max-width: 720px) {
+
+  #item-card-view {
+    padding: 1rem;
+    /* Ajusta el alto de la tarjeta cuando se expanda */
+    height: auto;
+    /* Estilo del fondo */
+  }
+
+  /* Ajuste de los elementos dentro del formulario */
+  form {
+    padding: 1rem;
+  }
+
+
+  /* Ajuste de inputs */
+  input {
+    width: 50%;
+    height: 2.5rem; /* Aumentar el tamaño de los inputs */
+  }
+
+  /* Ajuste de botones */
+  .button-group {
+    button {
+      height: 2rem;
+    }
+
+    input {
+      width: 10rem;
+      height: 2rem;
+    }
+
+  }
+}
 </style>

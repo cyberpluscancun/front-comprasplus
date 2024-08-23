@@ -26,48 +26,22 @@ const goToPage = (page) => {
   <div class="w-full h-full bg-background">
 
     <div class="m-3.5 mt-3.5">
-      <nav class="h-[calc(100vh-87vh)] bg-purple rounded-lg">
-        <div class="grid place-content-start">
-          <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-
-            <button data-collapse-toggle="navbar-default" type="button"
-                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                    aria-controls="navbar-default" aria-expanded="false">
-              <span class="sr-only">Open main menu</span>
-              <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                   viewBox="0 0 17 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M1 1h15M1 7h15M1 13h15" />
-              </svg>
-            </button>
-            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-              <ul
-                class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                  <a href="#"
-                     class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                     aria-current="page">Home</a>
-                </li>
-                <li>
-                  <a href="#"
-                     class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
-                </li>
-                <li>
-                  <a href="#"
-                     class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-                </li>
-                <li>
-                  <a href="#"
-                     class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-                </li>
-                <li>
-                  <a href="#"
-                     class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
-                </li>
-              </ul>
+      <nav class="h-[calc(100vh-87vh)] flex bg-purple rounded-lg">
+        <div class="m-2 rounded-lg p-2 flex">
+          <div class="w-[10rem]">
+            <div class="font-bold">
+              <h1>Titulo</h1>
+            </div>
+            <div class="font-light">
+              <h3>Centro Gasto / Departamento</h3>
             </div>
           </div>
+
+          <div class="grid place-items-center w-[10rem]">
+            Hola
+          </div>
         </div>
+
       </nav>
 
       <div id="item-card-view" class="bg-purple2 rounded-lg mt-3.5">
@@ -75,9 +49,9 @@ const goToPage = (page) => {
           <div class="gap-6 mb-2">
             <div class="flex">
               <div>
-                <label for="first_name"
+                <label for="quantity"
                        class="block text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
-                <input type="text" id="first_name"
+                <input type="number" id="quantity"
                        class="bg-gray-50 border w-[5.6ren] h-[2rem] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                        placeholder="Cantidad" required />
               </div>
@@ -158,7 +132,6 @@ const goToPage = (page) => {
     </div>
 
 
-    <router-view />
   </div>
 
 </template>

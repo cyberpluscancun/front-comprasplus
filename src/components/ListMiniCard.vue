@@ -1,0 +1,84 @@
+<script setup>
+
+import MiniCard from '@/components/MiniCard.vue'
+import { ref, computed } from 'vue'
+
+const items = ref([...Array(10).keys()]) // Simulación de 10 elementos
+const itemsPerPage = ref(5)
+const currentPage = ref(1)
+
+const totalPages = computed(() => Math.ceil(items.value.length / itemsPerPage.value))
+
+const paginatedItems = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value
+  const end = start + itemsPerPage.value
+  return items.value.slice(start, end)
+})
+
+const goToPage = (page) => {
+  if (page > 0 && page <= totalPages.value) {
+    currentPage.value = page
+  }
+}
+</script>
+
+<template>
+  <div class="h-[calc(100vh-6.25rem)] bg-gray-800 text-center">
+    <div class="mt-2.5 h-[70%] mini-card-view-container rounded-lg">
+      <div v-for="item in paginatedItems" :key="item">
+        <MiniCard />
+      </div>
+      <div class="mb-5 mt-0 grid place-items-center">
+        <nav aria-label="Page navigation example" class="mt-4">
+          <ul class="inline-flex -space-x-px text-sm">
+            <li>
+              <button
+                @click="goToPage(currentPage - 1)"
+                :disabled="currentPage === 1"
+                class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                Previous
+              </button>
+            </li>
+
+            <li v-for="page in totalPages" :key="page">
+              <button
+                @click="goToPage(page)"
+                :class="{
+      'bg-primary text-text-white border border-gray-300': page === currentPage,
+      'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700': page !== currentPage
+    }"
+                class="flex items-center justify-center px-3 h-8 leading-tight border"
+              >
+                {{ page }}
+              </button>
+            </li>
+
+            <li>
+              <button
+                @click="goToPage(currentPage + 1)"
+                :disabled="currentPage === totalPages"
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                Next
+              </button>
+            </li>
+
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="bg-primary h-[4rem] rounded-lg mt-3.5">
+      <h1>Menu</h1>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+
+@media (max-width: 720px) {
+  .mini-card-view-container {
+    height: 80%;
+  }
+}
+</style>
