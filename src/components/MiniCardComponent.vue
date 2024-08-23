@@ -1,9 +1,12 @@
 <script setup>
-
+const handleClick = () => {
+  // Acción cuando se hace clic en la tarjeta
+  console.log("MiniCard clickeado!");
+};
 </script>
 
 <template>
-  <div class="bg-card rounded-lg h-[4rem] mt-2.5">
+  <div @click="handleClick" class="bg-card rounded-lg h-[4rem] mt-2.5 cursor-pointer">
     <div class="m-2 rounded-lg p-2 flex">
       <div class="w-full grid place-items-start">
         <div class="font-bold">
