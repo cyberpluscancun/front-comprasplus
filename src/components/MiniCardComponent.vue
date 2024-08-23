@@ -1,7 +1,13 @@
 <script setup>
+// props que recibirá el componente
+const props = defineProps({
+  title: String,
+  date: String,
+  folio: String
+});
+
 const handleClick = () => {
-  // Acción cuando se hace clic en la tarjeta
-  console.log("MiniCard clickeado!");
+  console.log(`MiniCard clickeado! Título: ${props.title}`);
 };
 </script>
 
@@ -10,17 +16,19 @@ const handleClick = () => {
     <div class="m-2 rounded-lg p-2 flex">
       <div class="w-full grid place-items-start">
         <div class="font-bold">
-          <h1>Titulo</h1>
+          <!-- Mostrar el título dinámico -->
+          <h1>{{ props.title }}</h1>
         </div>
         <div class="font-light">
-          <h3>Fecha</h3>
+          <!-- Mostrar la fecha dinámica -->
+          <h3>{{ props.date }}</h3>
         </div>
       </div>
 
       <div>
-        <h3>Folio</h3>
+        <!-- Mostrar el folio dinámico -->
+        <h3>{{ props.folio }}</h3>
       </div>
-
     </div>
   </div>
 </template>
