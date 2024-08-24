@@ -58,9 +58,10 @@ const goToPage = (page) => {
               <button
                 @click="goToPage(page)"
                 :class="{
-      'bg-primary text-text-white border border-gray-300': page === currentPage,
-      'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700': page !== currentPage
-    }"
+                  'bg-primary text-text-white border border-gray-300': page === currentPage,
+                  'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700':
+                    page !== currentPage
+                }"
                 class="flex items-center justify-center px-3 h-8 leading-tight border"
               >
                 {{ page }}
@@ -76,7 +77,6 @@ const goToPage = (page) => {
                 >
               </button>
             </li>
-
           </ul>
         </nav>
       </div>
@@ -84,4 +84,3 @@ const goToPage = (page) => {
     <MenuComponent />
   </div>
 </template>
-

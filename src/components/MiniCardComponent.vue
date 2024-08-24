@@ -4,11 +4,11 @@ const props = defineProps({
   title: String,
   date: String,
   folio: String
-});
+})
 
 const handleClick = () => {
-  console.log(`MiniCard clickeado! Título: ${props.title}`);
-};
+  console.log(`MiniCard clickeado! Título: ${props.title}`)
+}
 </script>
 
 <template>
@@ -33,6 +33,4 @@ const handleClick = () => {
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

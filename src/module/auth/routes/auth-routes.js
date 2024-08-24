@@ -1,18 +1,18 @@
 import Login from '@/module/auth/layout/LogIn.vue'
 
 const authRoutes = [
-    {
-        path: '/auth',
+  {
+    path: '/auth',
+    component: Login,
+    children: [
+      {
+        path: 'login',
+        name: 'Login',
         component: Login,
-        children: [
-            {
-                path: 'login',
-                name: 'Login',
-                component: Login,
-                meta: {layout: 'auth'}
-            }
-        ]
-    }
+        meta: { layout: 'auth' }
+      }
+    ]
+  }
 ]
 
 export default authRoutes

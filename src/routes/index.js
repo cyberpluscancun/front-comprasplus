@@ -14,23 +14,23 @@ const router = createRouter({
       children: [
         {
           path: '', // Ruta vacía para redireccionar a /dashboard/main
-          redirect: '/dashboard/main',
+          redirect: '/dashboard/main'
         },
         {
           path: 'main', // Ruta por defecto que muestra el DashboardLayout
           name: 'DashboardMain',
-          component: DashboardLayout,
+          component: DashboardLayout
         },
         {
           path: 'settings', // Ruta para settings
           name: 'Settings',
-          component: SettingsLayout,
-        },
-      ],
+          component: SettingsLayout
+        }
+      ]
     },
     {
       path: '/', // Ruta raíz, redirige a /dashboard
-      redirect: '/dashboard',
+      redirect: '/dashboard'
     },
     ...authRoutes
   ]

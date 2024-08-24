@@ -3,25 +3,26 @@
 @tailwind utilities;
 
 body {
-    background-color: #f7f9fc;
-    color: #312e38;
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* Evita el scroll */
+  background-color: #f7f9fc;
+  color: #312e38;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Evita el scroll */
 }
 
-html, body {
-    height: 100%; /* Asegura que ocupen toda la pantalla */
-    width: 100%;  /* Asegura que ocupen todo el ancho de la pantalla */
+html,
+body {
+  height: 100%; /* Asegura que ocupen toda la pantalla */
+  width: 100%; /* Asegura que ocupen todo el ancho de la pantalla */
 }
 
 #app {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden; /* Evita el scroll dentro del app */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* Evita el scroll dentro del app */
 }
