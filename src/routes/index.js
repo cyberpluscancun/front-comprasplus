@@ -1,36 +1,29 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '@/components/DashboardView.vue'
-import SettingsLayout from '@/components/SettingsLayout.vue'
 import authRoutes from '@/module/auth/routes/auth-routes.js'
 import DashboardLayout from '@/components/DashboardLayout.vue'
+import settingRoutes from '@/module/requisition/routes/settings-routes.js'
+import UserDetailView from '@/module/requisition/views/UserDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/dashboard', // Ruta /dashboard
+      path: '/dashboard',
       name: 'Dashboard',
       component: DashboardView,
       children: [
         {
-          path: '', // Ruta vacía para redireccionar a /dashboard/main
-          redirect: '/dashboard/main'
-        },
-        {
-          path: 'main', // Ruta por defecto que muestra el DashboardLayout
+          path: 'main',
           name: 'DashboardMain',
           component: DashboardLayout
         },
-        {
-          path: 'settings', // Ruta para settings
-          name: 'Settings',
-          component: SettingsLayout
-        }
+        ...settingRoutes
       ]
     },
     {
-      path: '/', // Ruta raíz, redirige a /dashboard
-      redirect: '/dashboard'
+      path: '/',
+      redirect: '/dashboard/main'
     },
     ...authRoutes
   ]

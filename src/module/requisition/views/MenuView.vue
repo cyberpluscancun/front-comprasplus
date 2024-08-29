@@ -1,5 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import ButtonComponent from '@/commons/ButtonComponent.vue'
 
 const router = useRouter()
 
@@ -14,12 +15,12 @@ function logout() {
 </script>
 
 <template>
-  <div class="h-[4rem] rounded-lg mt-3.5 flex">
+  <div class="h-[4rem] rounded-lg mt-3.5 flex justify-between w-full">
     <div>
       <button
         @click="goSettings"
         type="button"
-        class="bg-gray text-background p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        class="bg-gray text-background p-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         <svg
           class="w-6 h-6 text-gray-800 dark:text-white"
@@ -47,11 +48,12 @@ function logout() {
         </svg>
         <span class="sr-only">Config</span>
       </button>
-
+    </div>
+    <div class="ml-auto">
       <button
         @click="logout"
         type="button"
-        class="bg-gray text-background p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        class="bg-gray text-background p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         <svg
           class="w-6 h-6 text-gray-800 dark:text-white"

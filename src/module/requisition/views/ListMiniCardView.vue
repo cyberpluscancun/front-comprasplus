@@ -1,31 +1,27 @@
 <script setup>
-import MiniCard from '@/components/MiniCardComponent.vue'
 import { ref, computed } from 'vue'
-import MenuComponent from '@/components/MenuComponent.vue'
+import MenuView from '@/module/requisition/views/MenuView.vue'
 
-// Array de objetos con propiedades title, date, y folio
-const itemList = ref([
-  { id: 1, title: 'Item 1', date: '2024-08-01', folio: '001' },
-  { id: 2, title: 'Item 2', date: '2024-08-02', folio: '002' },
-  { id: 3, title: 'Item 3', date: '2024-08-03', folio: '003' },
-  { id: 4, title: 'Item 4', date: '2024-08-04', folio: '004' },
-  { id: 5, title: 'Item 5', date: '2024-08-05', folio: '005' },
-  { id: 6, title: 'Item 6', date: '2024-08-06', folio: '006' },
-  { id: 7, title: 'Item 7', date: '2024-08-07', folio: '007' },
-  { id: 8, title: 'Item 8', date: '2024-08-08', folio: '008' },
-  { id: 9, title: 'Item 9', date: '2024-08-09', folio: '009' },
-  { id: 10, title: 'Item 10', date: '2024-08-10', folio: '010' }
-])
+// Props
+const props = defineProps({
+  items: {
+    type: Array,
+    required: true
+  },
+  itemsPerPage: {
+    type: Number,
+    default: 5
+  }
+})
 
-const itemsPerPage = ref(5)
 const currentPage = ref(1)
 
-const totalPages = computed(() => Math.ceil(itemList.value.length / itemsPerPage.value))
+const totalPages = computed(() => Math.ceil(props.items.length / props.itemsPerPage))
 
 const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value
-  const end = start + itemsPerPage.value
-  return itemList.value.slice(start, end)
+  const start = (currentPage.value - 1) * props.itemsPerPage
+  const end = start + props.itemsPerPage
+  return props.items.slice(start, end)
 })
 
 const goToPage = (page) => {
@@ -39,7 +35,7 @@ const goToPage = (page) => {
   <div class="h-[calc(100vh-6.25rem)] bg-gray-800 text-center">
     <div class="mt-2.5 h-[70%] mini-card-view-container rounded-lg">
       <div v-for="item in paginatedItems" :key="item.id">
-        <MiniCard :title="item.title" :date="item.date" :folio="item.folio" />
+        <slot :item="item" />
       </div>
       <div class="mb-5 mt-0 grid place-items-center">
         <nav aria-label="Page navigation example" class="mt-4">
@@ -81,6 +77,6 @@ const goToPage = (page) => {
         </nav>
       </div>
     </div>
-    <MenuComponent />
+    <MenuView />
   </div>
 </template>

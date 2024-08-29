@@ -6,9 +6,7 @@ const props = defineProps({
   folio: String
 })
 
-const handleClick = () => {
-  console.log(`MiniCard clickeado! Título: ${props.title}`)
-}
+const handleClick = () => {}
 </script>
 
 <template>

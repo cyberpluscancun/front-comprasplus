@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1",
+    "firstName": "Pedro",
+    "lastNamePaternal": "Sanchez",
+    "lastNameMaternal": "Sanchez",
+    "password": "pass1!",
+    "profilePicture": "profile1.jpg"
+  },
+  {
+    "id": "2",
+    "firstName": "David",
+    "lastNamePaternal": "Fernandez",
+    "lastNameMaternal": "Lopez",
+    "password": "pass2!",
+    "profilePicture": "profile2.jpg"
+  },
+  {
+    "id": "3",
+    "firstName": "Manolo",
+    "lastNamePaternal": "Traviesas",
+    "lastNameMaternal": "Fernandez",
+    "password": "pass3!",
+    "profilePicture": "profile3.jpg"
+  },
+  {
+    "id": "4",
+    "firstName": "Lucia",
+    "lastNamePaternal": "Rodriguez",
+    "lastNameMaternal": "Fernandez",
+    "password": "pass4!",
+    "profilePicture": "profile4.jpg"
+  },
+  {
+    "id": "5",
+    "firstName": "Miguel",
+    "lastNamePaternal": "Garcia",
+    "lastNameMaternal": "Rodriguez",
+    "password": "pass5!",
+    "profilePicture": "profile5.jpg"
+  },
+  {
+    "id": "6",
+    "firstName": "Carlos",
+    "lastNamePaternal": "Gomez",
+    "lastNameMaternal": "Martinez",
+    "password": "pass6!",
+    "profilePicture": "profile6.jpg"
+  },
+  {
+    "id": "7",
+    "firstName": "David",
+    "lastNamePaternal": "Martinez",
+    "lastNameMaternal": "Martinez",
+    "password": "pass7!",
+    "profilePicture": "profile7.jpg"
+  },
+  {
+    "id": "8",
+    "firstName": "Jordan",
+    "lastNamePaternal": "Martinez",
+    "lastNameMaternal": "Lopez",
+    "password": "pass8!",
+    "profilePicture": "profile8.jpg"
+  },
+  {
+    "id": "9",
+    "firstName": "Lucia",
+    "lastNamePaternal": "Rodriguez",
+    "lastNameMaternal": "Perez",
+    "password": "pass9!",
+    "profilePicture": "profile9.jpg"
+  },
+  {
+    "id": "10",
+    "firstName": "Ana",
+    "lastNamePaternal": "Sanchez",
+    "lastNameMaternal": "Fernandez",
+    "password": "pass10!",
+    "profilePicture": "profile10.jpg"
+  }
+]
