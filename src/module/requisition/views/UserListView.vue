@@ -3,9 +3,11 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import UserMiniCardComponent from '@/module/requisition/components/UserMiniCardComponent.vue'
 import ListMiniCardView from '@/module/requisition/views/ListMiniCardView.vue'
+import { useUserStore } from '@/store/newUser.js'
 
 const router = useRouter()
 const users = ref([])
+const userStore = useUserStore()
 
 onMounted(async () => {
   try {
@@ -27,11 +29,20 @@ function goToUserDetail(id) {
   console.log(id)
   router.push(`/dashboard/settings/users/user/${id}`)
 }
+
+// function sendEventNewUser() {
+//   eventBus.newUser = true
+// }
+
+function handleNewUser() {
+  userStore.startCreatingUser()
+}
 </script>
 
 <template>
   <div class="w-full">
     <button
+      @click="handleNewUser"
       type="button"
       class="text-text-white w-full bg-gray focus:ring-4 hover:bg-primary font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
     >

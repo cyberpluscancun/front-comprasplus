@@ -3,10 +3,15 @@ import { onMounted, ref, watch } from 'vue'
 import InputComponent from '@/commons/InputComponent.vue'
 import ButtonComponent from '@/commons/ButtonComponent.vue'
 import { useRoute } from 'vue-router'
+import { fetchUsers, findUserById } from '@/services/user-services.js'
+import { useUserStore } from '@/store/newUser.js'
 
 const route = useRoute()
 const userId = ref(route.params.id)
+const userStore = useUserStore()
 let isEdit = ref(false)
+let tempOriginalValues = ref({})
+let blankValues = ref({})
 
 const originalValues = ref({
   userId: userId.value,
@@ -18,23 +23,10 @@ const originalValues = ref({
   fileInput: ''
 })
 
-let users = ref([]) // Esto ahora será un array
-
-async function fetchUsers() {
-  const response = await fetch('/src/store/users.json')
-  users.value = await response.json()
-}
-
-function fetchUserById(id) {
-  const user = users.value.find((user) => user.id === id)
-  if (user) {
-    originalValues.value = { ...user }
-  }
-  console.log(originalValues.value)
-}
+let users = ref([])
 
 onMounted(async () => {
-  await fetchUsers()
+  await loadUsers()
   fetchUserById(userId.value)
 })
 
@@ -42,13 +34,65 @@ watch(
   () => route.params.id,
   (newId) => {
     userId.value = newId
-    console.log('Nuevo ID recibido:', userId.value)
     fetchUserById(newId)
   }
 )
 
+watch(
+  () => userStore.isCreatingNewUser,
+  (isCreating) => {
+    if (isCreating) {
+      // Limpiar inputs y activar modo de edición
+      resetForm()
+      userStore.stopCreatingUser()
+    }
+  }
+)
+
+const loadUsers = async () => {
+  users.value = await fetchUsers()
+}
+
+const fetchUserById = (id) => {
+  const user = findUserById(users.value, id)
+  if (user) {
+    originalValues.value = { ...user }
+  } else {
+    console.warn(`Usuario con ID ${id} no encontrado`)
+  }
+  console.log(originalValues.value)
+  return user
+}
+
 function alternateEdit() {
-  isEdit.value = !isEdit.value
+  isEdit.value = true
+  tempOriginalValues.value = { ...originalValues.value }
+}
+
+function cancelEdit() {
+  isEdit.value = false
+  originalValues.value = { ...tempOriginalValues.value }
+}
+
+function resetForm() {
+  isEdit.value = true
+  originalValues.value = { ...blankValues }
+}
+
+function saveUser() {
+  const savedUser = {
+    id: originalValues.value.userId,
+    firstName: originalValues.value.firstName,
+    lastNamePaternal: originalValues.value.lastNamePaternal,
+    lastNameMaternal: originalValues.value.lastNameMaternal,
+    password: originalValues.value.password,
+    repeatPassword: originalValues.value.repeatPassword,
+    fileInput: originalValues.value.fileInput
+  }
+
+  console.log('Guardando usuario:', savedUser)
+
+  isEdit.value = false
 }
 </script>
 
@@ -179,6 +223,7 @@ function alternateEdit() {
                 icon="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"
                 label="Guardar"
                 custom-class="hover:bg-primary"
+                @click="saveUser"
               />
             </div>
 
@@ -188,7 +233,7 @@ function alternateEdit() {
                 icon="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"
                 label="Cancelar"
                 custom-class="hover:bg-error"
-                @click="alternateEdit"
+                @click="cancelEdit"
               />
             </div>
           </div>
