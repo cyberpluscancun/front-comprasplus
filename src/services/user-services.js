@@ -1,5 +1,5 @@
 export const fetchUsers = async () => {
-  const response = await fetch('/src/store/users.json')
+  const response = await fetch('/src/assets/users.json')
   return response.json()
 }
 

@@ -3,26 +3,16 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import UserMiniCardComponent from '@/module/requisition/components/UserMiniCardComponent.vue'
 import ListMiniCardView from '@/module/requisition/views/ListMiniCardView.vue'
-import { useUserStore } from '@/store/newUser.js'
+import { useUserEvent } from '@/store/useUserEvent.js'
+import { useUserStore } from '@/store/useUserStore.js'
 
 const router = useRouter()
-const users = ref([])
+const userEvent = useUserEvent()
 const userStore = useUserStore()
 
 onMounted(async () => {
-  try {
-    const response = await fetch('/src/store/users.json')
-    if (!response.ok) {
-      throw new Error('Error fetching users data')
-    }
-    users.value = await response.json()
-    console.log(users.value)
-    for (let item in users.value) {
-      console.log(item)
-    }
-  } catch (error) {
-    console.error('Error fetching users data:', error)
-  }
+  await userStore.loadUsers()
+  console.log(userStore.users)
 })
 
 function goToUserDetail(id) {
@@ -30,13 +20,11 @@ function goToUserDetail(id) {
   router.push(`/dashboard/settings/users/user/${id}`)
 }
 
-// function sendEventNewUser() {
-//   eventBus.newUser = true
-// }
-
 function handleNewUser() {
-  userStore.startCreatingUser()
+  userEvent.startCreatingUser()
 }
+
+const { isLoading, error } = userStore
 </script>
 
 <template>
@@ -84,17 +72,25 @@ function handleNewUser() {
       </button>
     </form>
   </div>
-  <!-- List mini cards -->
-  <ListMiniCardView :items="users">
-    <template #default="{ item }">
-      <UserMiniCardComponent
-        :firstName="item.firstName"
-        :lastNamePaternal="item.lastNamePaternal"
-        :lastNameMaternal="item.lastNameMaternal"
-        @click="() => goToUserDetail(item.id)"
-      />
-    </template>
-  </ListMiniCardView>
+  <div class="h-[calc(100vh-6.25rem)] bg-gray-800 text-center">
+    <!-- List mini cards -->
+    <div class="users-list-container">
+      <div v-if="isLoading" class="loading">Cargando usuarios...</div>
+
+      <div v-if="error" class="error">Error al cargar usuarios: {{ error }}</div>
+
+      <ListMiniCardView :items="userStore.users">
+        <template #default="{ item }">
+          <UserMiniCardComponent
+            :firstName="item.firstName"
+            :lastNamePaternal="item.lastNamePaternal"
+            :lastNameMaternal="item.lastNameMaternal"
+            @click="() => goToUserDetail(item.UserId)"
+          />
+        </template>
+      </ListMiniCardView>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

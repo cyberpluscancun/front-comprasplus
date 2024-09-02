@@ -3,18 +3,19 @@ import { onMounted, ref, watch } from 'vue'
 import InputComponent from '@/commons/InputComponent.vue'
 import ButtonComponent from '@/commons/ButtonComponent.vue'
 import { useRoute } from 'vue-router'
-import { fetchUsers, findUserById } from '@/services/user-services.js'
-import { useUserStore } from '@/store/newUser.js'
+import { useUserEvent } from '@/store/useUserEvent.js'
+import { useUserStore } from '@/store/useUserStore.js'
 
 const route = useRoute()
-const userId = ref(route.params.id)
+const paramsId = ref(route.params.id)
+const userEvent = useUserEvent()
 const userStore = useUserStore()
 let isEdit = ref(false)
 let tempOriginalValues = ref({})
 let blankValues = ref({})
 
 const originalValues = ref({
-  userId: userId.value,
+  UserId: paramsId.value,
   firstName: '',
   lastNamePaternal: '',
   lastNameMaternal: '',
@@ -23,38 +24,32 @@ const originalValues = ref({
   fileInput: ''
 })
 
-let users = ref([])
-
 onMounted(async () => {
-  await loadUsers()
-  fetchUserById(userId.value)
+  await userStore.loadUsers()
+  fetchUserById(paramsId.value)
 })
 
 watch(
   () => route.params.id,
   (newId) => {
-    userId.value = newId
+    paramsId.value = newId
     fetchUserById(newId)
   }
 )
 
 watch(
-  () => userStore.isCreatingNewUser,
+  () => userEvent.isCreatingNewUser,
   (isCreating) => {
     if (isCreating) {
       // Limpiar inputs y activar modo de edición
       resetForm()
-      userStore.stopCreatingUser()
+      userEvent.stopCreatingUser()
     }
   }
 )
 
-const loadUsers = async () => {
-  users.value = await fetchUsers()
-}
-
 const fetchUserById = (id) => {
-  const user = findUserById(users.value, id)
+  const user = userStore.getUserByID(id)
   if (user) {
     originalValues.value = { ...user }
   } else {
@@ -81,7 +76,7 @@ function resetForm() {
 
 function saveUser() {
   const savedUser = {
-    id: originalValues.value.userId,
+    UserId: originalValues.value.UserId,
     firstName: originalValues.value.firstName,
     lastNamePaternal: originalValues.value.lastNamePaternal,
     lastNameMaternal: originalValues.value.lastNameMaternal,
