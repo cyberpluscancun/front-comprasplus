@@ -82,9 +82,9 @@ const { isLoading, error } = userStore
       <ListMiniCardView :items="userStore.users">
         <template #default="{ item }">
           <UserMiniCardComponent
-            :firstName="item.firstName"
-            :lastNamePaternal="item.lastNamePaternal"
-            :lastNameMaternal="item.lastNameMaternal"
+            :name="item.name"
+            :email="item.email"
+            :lastnamefather="item.lastnamefather"
             @click="() => goToUserDetail(item.UserId)"
           />
         </template>
