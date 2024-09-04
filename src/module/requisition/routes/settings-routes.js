@@ -1,6 +1,6 @@
 import SettingsLayout from '@/components/SettingsLayout.vue'
-import UserDetailView from '@/module/requisition/views/UserDetailView.vue'
-import UserDetailComponent from '@/module/requisition/components/UserDetailComponent.vue'
+import UserDetailView from '@/module/requisition/views/users/UserDetailView.vue'
+import UserDetailComponent from '@/module/requisition/components/users/UserDetailComponent.vue'
 
 const settingRoutes = [
   {

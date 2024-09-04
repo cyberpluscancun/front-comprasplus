@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { ref, watch } from 'vue'
-import UserDetailComponent from '@/module/requisition/components/UserDetailComponent.vue'
+import UserDetailComponent from '@/module/requisition/components/users/UserDetailComponent.vue'
 
 const route = useRoute()
 const id = ref(route.params.id || '')

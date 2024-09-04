@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import UserListView from '@/module/requisition/views/UserListView.vue'
-import RequestListView from '@/module/requisition/views/RequestListView.vue'
+import UserListView from '@/module/requisition/views/users/UserListView.vue'
+import DocumentListView from '@/module/requisition/views/documents/DocumentListView.vue'
 
 const route = useRoute()
 </script>
@@ -29,7 +29,7 @@ const route = useRoute()
         <!-- Botón y formulario -->
         <div id="minicard-container">
           <UserListView v-if="route.path.includes('/dashboard/settings/users')" />
-          <RequestListView v-else />
+          <DocumentListView v-else />
         </div>
       </div>
     </div>

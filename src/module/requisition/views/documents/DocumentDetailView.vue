@@ -1,25 +1,4 @@
-<script setup>
-import ItemCardView from '@/module/requisition/components/ItemCardComponent.vue'
-import { ref, computed } from 'vue'
-
-const items = ref([...Array(10).keys()]) // Simulación de 10 elementos
-const itemsPerPage = ref(5)
-const currentPage = ref(1)
-
-const totalPages = computed(() => Math.ceil(items.value.length / itemsPerPage.value))
-
-const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value
-  const end = start + itemsPerPage.value
-  return items.value.slice(start, end)
-})
-
-const goToPage = (page) => {
-  if (page > 0 && page <= totalPages.value) {
-    currentPage.value = page
-  }
-}
-</script>
+<script setup></script>
 
 <template>
   <div>
@@ -81,23 +60,6 @@ const goToPage = (page) => {
             <div class="h-auto max-w-full"></div>
             <div class="h-auto max-w-full">
               <div class="grid place-items-center">
-                <div>
-                  <svg
-                    class="w-9 h-9 text-gray-800 dark:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
                 <div>
                   <button
                     type="button"
@@ -187,50 +149,51 @@ const goToPage = (page) => {
       </div>
     </div>
 
-    <div id="item-card-view-container" class="m-3.5 overflow-y-auto h-[calc(100vh-20rem)]">
-      <div v-for="item in paginatedItems" :key="item">
-        <ItemCardView />
-      </div>
-      <div class="mb-5 mt-0 grid place-items-center">
-        <nav aria-label="Page navigation example" class="mt-4">
-          <ul class="inline-flex -space-x-px text-sm">
-            <li>
-              <button
-                @click="goToPage(currentPage - 1)"
-                :disabled="currentPage === 1"
-                class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Anterior
-              </button>
-            </li>
+    <!--    Paginación de los items de un documento-->
+    <!--    <div id="item-card-view-container" class="m-3.5 overflow-y-auto h-[calc(100vh-20rem)]">-->
+    <!--      <div v-for="item in paginatedItems" :key="item">-->
+    <!--        <ItemCardView />-->
+    <!--      </div>-->
+    <!--      <div class="mb-5 mt-0 grid place-items-center">-->
+    <!--        <nav aria-label="Page navigation example" class="mt-4">-->
+    <!--          <ul class="inline-flex -space-x-px text-sm">-->
+    <!--            <li>-->
+    <!--              <button-->
+    <!--                @click="goToPage(currentPage - 1)"-->
+    <!--                :disabled="currentPage === 1"-->
+    <!--                class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"-->
+    <!--              >-->
+    <!--                Anterior-->
+    <!--              </button>-->
+    <!--            </li>-->
 
-            <li v-for="page in totalPages" :key="page">
-              <button
-                @click="goToPage(page)"
-                :class="{
-                  'bg-primary text-text-white border border-gray-300': page === currentPage,
-                  'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700':
-                    page !== currentPage
-                }"
-                class="flex items-center justify-center px-3 h-8 leading-tight border"
-              >
-                {{ page }}
-              </button>
-            </li>
+    <!--            <li v-for="page in totalPages" :key="page">-->
+    <!--              <button-->
+    <!--                @click="goToPage(page)"-->
+    <!--                :class="{-->
+    <!--                  'bg-primary text-text-white border border-gray-300': page === currentPage,-->
+    <!--                  'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700':-->
+    <!--                    page !== currentPage-->
+    <!--                }"-->
+    <!--                class="flex items-center justify-center px-3 h-8 leading-tight border"-->
+    <!--              >-->
+    <!--                {{ page }}-->
+    <!--              </button>-->
+    <!--            </li>-->
 
-            <li>
-              <button
-                @click="goToPage(currentPage + 1)"
-                :disabled="currentPage === totalPages"
-                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >
-                Siguiente
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+    <!--            <li>-->
+    <!--              <button-->
+    <!--                @click="goToPage(currentPage + 1)"-->
+    <!--                :disabled="currentPage === totalPages"-->
+    <!--                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"-->
+    <!--              >-->
+    <!--                Siguiente-->
+    <!--              </button>-->
+    <!--            </li>-->
+    <!--          </ul>-->
+    <!--        </nav>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </template>
 

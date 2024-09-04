@@ -3,8 +3,8 @@ import { onMounted, ref, watch } from 'vue'
 import InputComponent from '@/commons/InputComponent.vue'
 import ButtonComponent from '@/commons/ButtonComponent.vue'
 import { useRoute } from 'vue-router'
-import { useUserEvent } from '@/store/useUserEvent.js'
-import { useUserStore } from '@/store/useUserStore.js'
+import { useUserEvent } from '@/store/user/useUserEvent.js'
+import { useUserStore } from '@/store/user/useUserStore.js'
 import { roleItems } from '@/module/auth/composable/roles.js'
 
 const route = useRoute()

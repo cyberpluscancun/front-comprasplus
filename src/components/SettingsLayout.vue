@@ -10,9 +10,9 @@ function goBack() {
   if (currentPath.includes('/dashboard/settings/users')) {
     router.push('/dashboard/settings')
   } else if (currentPath.includes('/dashboard/settings')) {
-    router.push('/dashboard/main')
+    router.push('/dashboard')
   } else {
-    router.push('/dashboard/main')
+    router.push('/dashboard')
   }
 }
 

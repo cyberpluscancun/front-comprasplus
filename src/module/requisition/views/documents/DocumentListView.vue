@@ -1,24 +1,24 @@
 <script setup>
-import ListMiniCardView from '@/module/requisition/views/ListMiniCardView.vue'
 import { onMounted, ref } from 'vue'
-import RequestMiniCardComponent from '@/module/requisition/components/RequestMiniCardComponent.vue'
+import DocumentMiniCardComponent from '@/module/requisition/components/documents/DocumentMiniCardComponent.vue'
+import PaginatorView from '@/module/requisition/views/PaginatorView.vue'
+import { useDocumentStore } from '@/store/document/useDocumentStore.js'
+import { useRouter } from 'vue-router'
 
-const requests = ref([])
+const router = useRouter()
+const documentStore = useDocumentStore()
+
 onMounted(async () => {
-  try {
-    const response = await fetch('/src/store/requests.json')
-    if (!response.ok) {
-      throw new Error('Error fetching requests data')
-    }
-    requests.value = await response.json()
-    console.log(requests.value)
-    for (let item in requests.value) {
-      console.log(item)
-    }
-  } catch (error) {
-    console.error('Error fetching requests data:', error)
-  }
+  await documentStore.loadDocuments()
+  console.log(documentStore.documents)
 })
+
+function goToDocumentDetail(id) {
+  console.log(id)
+  router.push({ name: 'DocumentDetail', params: { id } })
+}
+
+const { isLoading, error } = documentStore
 </script>
 
 <template>
@@ -65,11 +65,24 @@ onMounted(async () => {
       </button>
     </form>
   </div>
-  <ListMiniCardView :items="requests">
-    <template #default="{ item }">
-      <RequestMiniCardComponent :title="item.title" :date="item.date" :folio="item.folio" />
-    </template>
-  </ListMiniCardView>
+  <div class="h-[calc(100vh-6.25rem)] bg-gray-800 text-center">
+    <div id="document-list-container">
+      <div v-if="isLoading" class="loading">Cargando documentos...</div>
+
+      <div v-if="error" class="error">Error al cargar documentos: {{ error }}</div>
+
+      <PaginatorView :items="documentStore.documents">
+        <template #default="{ item }">
+          <DocumentMiniCardComponent
+            :DocumentId="item.DocumentId"
+            :DocumentDate="item.DocumentDate"
+            :FolioUuid="item.FolioUuid"
+            @click="() => goToDocumentDetail(item.DocumentId)"
+          />
+        </template>
+      </PaginatorView>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

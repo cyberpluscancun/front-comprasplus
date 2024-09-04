@@ -1,10 +1,10 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import UserMiniCardComponent from '@/module/requisition/components/UserMiniCardComponent.vue'
-import ListMiniCardView from '@/module/requisition/views/ListMiniCardView.vue'
-import { useUserEvent } from '@/store/useUserEvent.js'
-import { useUserStore } from '@/store/useUserStore.js'
+import UserMiniCardComponent from '@/module/requisition/components/users/UserMiniCardComponent.vue'
+import { useUserEvent } from '@/store/user/useUserEvent.js'
+import { useUserStore } from '@/store/user/useUserStore.js'
+import PaginatorView from '@/module/requisition/views/PaginatorView.vue'
 
 const router = useRouter()
 const userEvent = useUserEvent()
@@ -74,12 +74,12 @@ const { isLoading, error } = userStore
   </div>
   <div class="h-[calc(100vh-6.25rem)] bg-gray-800 text-center">
     <!-- List mini cards -->
-    <div class="users-list-container">
+    <div id="users-list-container">
       <div v-if="isLoading" class="loading">Cargando usuarios...</div>
 
       <div v-if="error" class="error">Error al cargar usuarios: {{ error }}</div>
 
-      <ListMiniCardView :items="userStore.users">
+      <PaginatorView :items="userStore.users">
         <template #default="{ item }">
           <UserMiniCardComponent
             :name="item.name"
@@ -88,7 +88,7 @@ const { isLoading, error } = userStore
             @click="() => goToUserDetail(item.UserId)"
           />
         </template>
-      </ListMiniCardView>
+      </PaginatorView>
     </div>
   </div>
 </template>
