@@ -14,12 +14,12 @@ const userStore = useUserStore()
 const isEdit = ref(false)
 const isChecked1 = ref(false)
 const isChecked2 = ref(false)
-let tempOriginalValues = ref({})
-let blankValues = ref({})
 const isDropDownRoleOpen = ref(false)
 const selectedRoleItem = ref('')
 const selectedRoleText = ref('Seleccionar')
 const userRoleItems = roleItems
+let tempOriginalValues = ref({})
+let blankValues = ref({})
 
 const originalValues = ref({
   UserId: paramsId.value,

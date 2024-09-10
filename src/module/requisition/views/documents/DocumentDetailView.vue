@@ -1,4 +1,68 @@
-<script setup></script>
+<script setup>
+import { useRoute } from 'vue-router'
+import { onMounted, ref, watch } from 'vue'
+import { useDocumentStore } from '@/store/document/useDocumentStore.js'
+import { formatDate } from '@/services/format-date.js'
+import DocumentItemCardComponent from '@/module/requisition/components/documents/DocumentItemCardComponent.vue'
+
+const route = useRoute()
+const { isLoading, error } = useDocumentStore()
+const paramsId = ref(route.params.id || '')
+const auth1 = ref(false)
+const auth2 = ref(false)
+const documentStore = useDocumentStore()
+const documentItems = ref([])
+const documentValues = ref({
+  DocumentId: paramsId.value,
+  CostCenterId: 0,
+  DepotId: 0,
+  FolioUuid: '',
+  DocumentDate: '',
+  Export: false,
+  Auth1: false,
+  Auth2: false
+})
+
+onMounted(async () => {
+  await documentStore.loadDocuments()
+  await documentStore.loadDocumentsItem()
+  fetchDocumentById(paramsId.value)
+  fetchDocumentsItemByID(paramsId.value)
+})
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    paramsId.value = newId
+    fetchDocumentById(newId)
+    fetchDocumentsItemByID(newId)
+  }
+)
+
+const fetchDocumentById = async (id) => {
+  const document = await documentStore.getDocumentByID(id)
+  if (document) {
+    console.log(document)
+    documentValues.value = { ...document }
+    auth1.value = document.Auth1
+    auth2.value = document.Auth2
+  } else {
+    console.log(`Documento con ID ${id} no encontrado`)
+  }
+  return document
+}
+
+const fetchDocumentsItemByID = async (id) => {
+  const items = await documentStore.loadDocumentsItemByIDDocument(id)
+  if (items) {
+    documentItems.value = items
+    console.log('DocumentsItem =>', documentItems.value)
+  } else {
+    console.log(`DocumentItems con ID ${id} no encontrados`)
+  }
+  return documentItems.value
+}
+</script>
 
 <template>
   <div>
@@ -12,15 +76,17 @@
                   <h1>Titulo</h1>
                 </div>
                 <div class="font-light">
-                  <h3>Centro Gasto / Departamento</h3>
+                  <h3>{{ documentValues.CostCenterId }} / {{ documentValues.DepotId }}</h3>
                 </div>
               </div>
             </div>
             <div class="h-auto max-w-full">
-              <div class="grid place-items-start">Fecha</div>
+              <div class="grid place-items-start">
+                {{ formatDate(documentValues.DocumentDate) }}
+              </div>
             </div>
             <div class="h-auto max-w-full">
-              <div class="grid place-items-start">Folio</div>
+              <div class="grid place-items-start">{{ documentValues.FolioUuid }}</div>
             </div>
             <div class="h-auto max-w-full">
               <div class="flex">
@@ -31,10 +97,12 @@
                   <div class="font-light grid place-items-center">
                     <div class="flex items-center">
                       <input
+                        :checked="auth1"
                         id="checked-checkbox"
                         type="checkbox"
                         value=""
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        @change="auth1 = !auth1"
                       />
                     </div>
                   </div>
@@ -46,11 +114,12 @@
                   <div class="font-light grid place-items-center">
                     <div class="flex items-center">
                       <input
-                        checked
+                        :checked="auth2"
                         id="checked-checkbox"
                         type="checkbox"
                         value=""
                         class="w-4 h-4 text-blue-600 bg-gray-100 bord er-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        @change="auth2 = !auth2"
                       />
                     </div>
                   </div>
@@ -150,50 +219,22 @@
     </div>
 
     <!--    Paginación de los items de un documento-->
-    <!--    <div id="item-card-view-container" class="m-3.5 overflow-y-auto h-[calc(100vh-20rem)]">-->
-    <!--      <div v-for="item in paginatedItems" :key="item">-->
-    <!--        <ItemCardView />-->
-    <!--      </div>-->
-    <!--      <div class="mb-5 mt-0 grid place-items-center">-->
-    <!--        <nav aria-label="Page navigation example" class="mt-4">-->
-    <!--          <ul class="inline-flex -space-x-px text-sm">-->
-    <!--            <li>-->
-    <!--              <button-->
-    <!--                @click="goToPage(currentPage - 1)"-->
-    <!--                :disabled="currentPage === 1"-->
-    <!--                class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"-->
-    <!--              >-->
-    <!--                Anterior-->
-    <!--              </button>-->
-    <!--            </li>-->
+    <div id="item-card-view-container" class="m-3.5 overflow-y-auto h-[calc(100vh-20rem)]">
+      <div class="document-items-container">
+        <div v-if="isLoading" class="loading">Cargando documentos...</div>
 
-    <!--            <li v-for="page in totalPages" :key="page">-->
-    <!--              <button-->
-    <!--                @click="goToPage(page)"-->
-    <!--                :class="{-->
-    <!--                  'bg-primary text-text-white border border-gray-300': page === currentPage,-->
-    <!--                  'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700':-->
-    <!--                    page !== currentPage-->
-    <!--                }"-->
-    <!--                class="flex items-center justify-center px-3 h-8 leading-tight border"-->
-    <!--              >-->
-    <!--                {{ page }}-->
-    <!--              </button>-->
-    <!--            </li>-->
+        <div v-if="error" class="error">Error al cargar documentos: {{ error }}</div>
 
-    <!--            <li>-->
-    <!--              <button-->
-    <!--                @click="goToPage(currentPage + 1)"-->
-    <!--                :disabled="currentPage === totalPages"-->
-    <!--                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"-->
-    <!--              >-->
-    <!--                Siguiente-->
-    <!--              </button>-->
-    <!--            </li>-->
-    <!--          </ul>-->
-    <!--        </nav>-->
-    <!--      </div>-->
-    <!--    </div>-->
+        <!--        Lista DocumentsItem-->
+        <div v-for="item in documentItems" :key="item.DocumentItemsId">
+          <DocumentItemCardComponent
+            :Quantity="item.Quantity"
+            :Description="item.Description"
+            :Comments="item.Comments"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
