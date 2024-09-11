@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import UserMiniCardComponent from '@/module/requisition/components/users/UserMiniCardComponent.vue'
 import { useUserEvent } from '@/store/user/useUserEvent.js'
@@ -17,7 +17,7 @@ onMounted(async () => {
 
 function goToUserDetail(id) {
   console.log(id)
-  router.push(`/dashboard/settings/users/user/${id}`)
+  router.push({ name: 'UserDetail', params: { id } })
 }
 
 function handleNewUser() {

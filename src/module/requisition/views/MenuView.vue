@@ -1,16 +1,15 @@
 <script setup>
 import { useRouter } from 'vue-router'
-import ButtonComponent from '@/commons/ButtonComponent.vue'
 
 const router = useRouter()
 
 function goSettings() {
-  router.push('/dashboard/settings')
+  router.push({ name: 'Settings' })
 }
 
 function logout() {
   localStorage.clear()
-  router.push('/auth/login')
+  router.push({ name: 'Login' })
 }
 </script>
 

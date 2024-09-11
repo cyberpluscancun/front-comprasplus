@@ -8,16 +8,16 @@ const router = useRouter()
 function goBack() {
   let currentPath = route.path
   if (currentPath.includes('/dashboard/settings/users')) {
-    router.push('/dashboard/settings')
+    router.push({ name: 'Settings' })
   } else if (currentPath.includes('/dashboard/settings')) {
-    router.push('/dashboard')
+    router.push({ name: 'Dashboard' })
   } else {
-    router.push('/dashboard')
+    router.push({ name: 'Dashboard' })
   }
 }
 
 function goUserDetails() {
-  router.push('/dashboard/settings/users')
+  router.push({ name: 'Users' })
 }
 </script>
 
