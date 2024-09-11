@@ -12,6 +12,7 @@ const auth1 = ref(false)
 const auth2 = ref(false)
 const documentStore = useDocumentStore()
 const documentItems = ref([])
+const blankValues = ref({})
 const documentValues = ref({
   DocumentId: paramsId.value,
   CostCenterId: 0,
@@ -22,12 +23,18 @@ const documentValues = ref({
   Auth1: false,
   Auth2: false
 })
+const documentItemValues = ref({
+  DocumentId: paramsId.value,
+  Quantity: 0,
+  Description: '',
+  Comments: ''
+})
 
 onMounted(async () => {
   await documentStore.loadDocuments()
   await documentStore.loadDocumentsItem()
-  fetchDocumentById(paramsId.value)
-  fetchDocumentsItemByID(paramsId.value)
+  await fetchDocumentById(paramsId.value)
+  await fetchDocumentsItemByID(paramsId.value)
 })
 
 watch(
@@ -61,6 +68,21 @@ const fetchDocumentsItemByID = async (id) => {
     console.log(`DocumentItems con ID ${id} no encontrados`)
   }
   return documentItems.value
+}
+
+const resetForm = () => {
+  documentItemValues.value = { ...blankValues }
+}
+
+const saveDocumentItem = () => {
+  const savedDocumentItem = {
+    DocumentId: paramsId.value,
+    Quantity: documentItemValues.value.Quantity,
+    Description: documentItemValues.value.Description,
+    Comments: documentItemValues.value.Comments
+  }
+  console.log(savedDocumentItem)
+  resetForm()
 }
 </script>
 
@@ -154,6 +176,7 @@ const fetchDocumentsItemByID = async (id) => {
                   >Cantidad</label
                 >
                 <input
+                  v-model="documentItemValues.Quantity"
                   type="number"
                   id="quantity"
                   class="bg-gray-50 border w-[5.6ren] h-[2rem] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -168,6 +191,7 @@ const fetchDocumentsItemByID = async (id) => {
                   >Descripción</label
                 >
                 <input
+                  v-model="documentItemValues.Description"
                   type="text"
                   id="last_name"
                   class="bg-gray-50 h-[2rem] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -181,6 +205,7 @@ const fetchDocumentsItemByID = async (id) => {
                 >Comentarios</label
               >
               <input
+                v-model="documentItemValues.Comments"
                 type="text"
                 id="company"
                 class="bg-gray-50 h-[2rem] border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -190,8 +215,9 @@ const fetchDocumentsItemByID = async (id) => {
             </div>
             <div class="grid place-items-end mt-2.5">
               <button
-                type="submit"
+                type="button"
                 class="px-2 py-1 text-xs font-medium text-center inline-flex items-center text-text-white bg-gray hover:bg-primary rounded"
+                @click="saveDocumentItem"
               >
                 <svg
                   class="mr-1 w-5 h-5 text-gray-800 dark:text-white"
