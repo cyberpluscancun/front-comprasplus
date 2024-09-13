@@ -5,25 +5,25 @@ export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     fontSize: {
-      'sm': '0.875rem', // 14px
-      'base': '1rem', // 16px
-      'lg': '1.125rem', // 18px
-      'xl': '1.25rem', // 20px
-      'xxl': '2.25rem', // 20px
+      sm: '0.875rem', // 14px
+      base: '1rem', // 16px
+      lg: '1.125rem', // 18px
+      xl: '1.25rem', // 20px
+      xxl: '2.25rem', // 20px
       // Añade más tamaños si es necesario
-      'default': '1rem' // Tamaño por defecto
+      default: '1rem' // Tamaño por defecto
     },
     colors: {
-      'primary': '#007aff',
-      'purple': '#d8e4ff',
-      'purple2': '#e9f0ff',
-      'accent': '#d8e4ff',
-      'card': '#ece6f0',
-      'background': '#fef7ff',
-      'success': '#53b44d',
-      'error': '#ff2e2e',
+      primary: '#007aff',
+      purple: '#d8e4ff',
+      purple2: '#e9f0ff',
+      accent: '#d8e4ff',
+      card: '#ece6f0',
+      background: '#fef7ff',
+      success: '#53b44d',
+      error: '#ff2e2e',
       'gray-dark': '#273444',
-      'gray': '#9c9ca0',
+      gray: '#9c9ca0',
       'gray-light': '#d3dce6',
       'text-color-primary': '#0f1c26',
       'text-color-secondary': '#49454f',
@@ -31,14 +31,12 @@ export default {
     },
     extend: {
       fontSize: {
-        'default': '1rem' // Define el tamaño por defecto aquí
+        default: '1rem' // Define el tamaño por defecto aquí
       }
     },
     fontFamily: {
       sans: ['Arian', 'sans-serif']
     }
   },
-  plugins: [
-    form
-  ]
+  plugins: [form]
 }

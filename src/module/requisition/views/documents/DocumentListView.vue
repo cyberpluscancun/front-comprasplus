@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import DocumentMiniCardComponent from '@/module/requisition/components/documents/DocumentMiniCardComponent.vue'
 import PaginatorView from '@/module/requisition/views/PaginatorView.vue'
 import { useDocumentStore } from '@/store/document/useDocumentStore.js'

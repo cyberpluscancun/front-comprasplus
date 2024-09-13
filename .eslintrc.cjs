@@ -10,5 +10,8 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
-  }
+  },
+  env: {
+    node: true, // Asegura que ESLint permita la variable 'process'
+  },
 }

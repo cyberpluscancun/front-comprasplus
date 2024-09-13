@@ -22,7 +22,7 @@ const router = createRouter({
     },
     {
       path: '/',
-      redirect: '/dashboard'
+      redirect: '/auth'
     },
     ...authRoutes
   ]

@@ -11,8 +11,8 @@ export const useDocumentStore = defineStore('documentStore', () => {
     isLoading.value = true
     error.value = null
     try {
-      // const response = await fetch('https://api.example.com/requests')
-      const response = await fetch('/src/assets/documents.json')
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/documents`)
+      // const response = await fetch('/src/assets/documents.json')
       if (!response.ok) {
         throw new Error('Error fetching documents')
       }

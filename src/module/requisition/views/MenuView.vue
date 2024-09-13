@@ -1,15 +1,16 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/store/auth/useAuthStore.js'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
-function goSettings() {
+const goSettings = () => {
   router.push({ name: 'Settings' })
 }
 
-function logout() {
-  localStorage.clear()
-  router.push({ name: 'Login' })
+const logout = async () => {
+  await authStore.closeLoginUser()
 }
 </script>
 

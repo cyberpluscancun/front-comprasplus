@@ -10,7 +10,7 @@ export const useUserStore = defineStore('userStore', () => {
     isLoading.value = true
     error.value = null
     try {
-      const response = await fetch('/src/assets/users.json')
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users`)
       if (!response.ok) {
         throw new Error('Failed to load users')
       }
