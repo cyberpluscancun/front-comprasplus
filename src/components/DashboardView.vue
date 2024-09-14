@@ -8,7 +8,7 @@ const route = useRoute()
 
 <template>
   <div v-if="route.meta.layout === 'auth'" class="auth-layout">
-    <router-view />
+    <RouterView />
   </div>
 
   <div v-else class="w-screen h-screen flex">
@@ -40,7 +40,7 @@ const route = useRoute()
     <!-- Right side navigation -->
     <div id="right-side-navigation" class="w-full h-full bg-background">
       <!-- Aquí se carga el contenido de las rutas hijas -->
-      <router-view />
+      <RouterView />
     </div>
   </div>
 </template>

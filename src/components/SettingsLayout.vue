@@ -54,7 +54,7 @@ function goUserDetails() {
         </div>
       </div>
       <div class="p-2 mt-2.5">
-        <router-view />
+        <RouterView />
       </div>
     </div>
   </div>
