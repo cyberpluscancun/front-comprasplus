@@ -1,14 +1,11 @@
-import Login from '@/module/auth/layout/LogIn.vue'
-
 const authRoutes = [
   {
     path: '/auth',
-    component: Login,
     children: [
       {
         path: 'login',
         name: 'Login',
-        component: Login,
+        component: () => import('@/module/auth/layout/LogIn.vue'),
         meta: { layout: 'auth' }
       }
     ]

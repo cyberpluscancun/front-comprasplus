@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",
+    "compras-plus": "file:",
     "compras-plus-js": "file:",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.2.2",
