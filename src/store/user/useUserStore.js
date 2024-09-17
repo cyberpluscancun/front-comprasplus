@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import axios from 'axios'
 
 export const useUserStore = defineStore('userStore', () => {
   const users = ref([])
@@ -10,7 +11,7 @@ export const useUserStore = defineStore('userStore', () => {
     isLoading.value = true
     error.value = null
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users`)
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/users`)
       if (!response.ok) {
         throw new Error('Failed to load users')
       }

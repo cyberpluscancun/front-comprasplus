@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { documentService } from '@/services/document/document-service.js'
 
 export const useDocumentStore = defineStore('documentStore', () => {
   const documents = ref([])
@@ -11,13 +12,11 @@ export const useDocumentStore = defineStore('documentStore', () => {
     isLoading.value = true
     error.value = null
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/documents`)
-      // const response = await fetch('/src/assets/documents.json')
-      if (!response.ok) {
-        throw new Error('Error fetching documents')
-      }
-      let data = await response.json()
-      documents.value = data
+      const response = await documentService.get(`/api/v1/documents`)
+
+      const data = response.data
+      console.log(data.documents)
+      documents.value = data.documents
         .map((document) => ({
           ...document,
           DocumentId: String(document.DocumentId)
@@ -40,13 +39,10 @@ export const useDocumentStore = defineStore('documentStore', () => {
     isLoading.value = true
     error.value = null
     try {
-      // const response = await fetch('https://api.example.com/requests')
-      const response = await fetch('/src/assets/document-items.json')
-      if (!response.ok) {
-        throw new Error('Error fetching documents')
-      }
-      let data = await response.json()
-      documentsItem.value = data.map((documentItem) => ({
+      const response = await authService.get('/api/v1/documents')
+
+      const data = response.data
+      documentsItem.value = data.documents.map((documentItem) => ({
         ...documentItem,
         DocumentItemsId: String(documentItem.DocumentItemsId),
         DocumentId: String(documentItem.DocumentId)

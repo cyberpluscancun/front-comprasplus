@@ -10,7 +10,7 @@ const goSettings = () => {
 }
 
 const logout = async () => {
-  await authStore.closeLoginUser()
+  await authStore.logout()
 }
 </script>
 

@@ -1,6 +1,7 @@
 const authRoutes = [
   {
     path: '/auth',
+    meta: { requireAuth: false },
     children: [
       {
         path: 'login',

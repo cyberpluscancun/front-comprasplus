@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import authRoutes from '@/module/auth/routes/auth-routes.js'
 import settingRoutes from '@/module/requisition/routes/settings-routes.js'
+import { authGuard } from '@/routes/guards/auth-guard.js'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -9,6 +10,7 @@ const router = createRouter({
       path: '/dashboard',
       name: 'Dashboard',
       component: () => import('@/components/DashboardView.vue'),
+      meta: { requireAuth: true },
       children: [
         {
           path: 'documents/:id',
@@ -20,10 +22,16 @@ const router = createRouter({
     },
     {
       path: '/',
-      redirect: '/auth'
+      redirect: '/auth/login'
+    },
+    {
+      path: '/:catchAll(.*)',
+      redirect: '/auth/login'
     },
     ...authRoutes
   ]
 })
+
+router.beforeEach(authGuard)
 
 export default router

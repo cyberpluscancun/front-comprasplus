@@ -2,19 +2,54 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { jwtDecode } from 'jwt-decode'
 import { useRouter } from 'vue-router'
+import { authService } from '@/services/auth/auth-service.js'
 
 export const useAuthStore = defineStore('authStore', () => {
   const router = useRouter()
   const token = ref('')
   const userDb = ref({})
+  const errorMessage = ref('')
+
+  const initAuth = () => {
+    const storedToken = localStorage.getItem('token')
+    if (storedToken) {
+      token.value = storedToken
+    }
+  }
+
+  const login = async (payload) => {
+    try {
+      const response = await authService.post('/api/v1/auth', payload)
+
+      const data = response.data
+      console.log(data)
+
+      token.value = data.token
+
+      userDb.value = await getLoginUser(token.value)
+      console.log(userDb.value)
+      await saveLoginUser(data.token)
+
+      await router.push({ name: 'Dashboard' })
+    } catch (err) {
+      if (err.response) {
+        console.error('Error en la respuesta del servidor:', err.response.data)
+        errorMessage.value = 'Error en la autenticación'
+      } else if (err.request) {
+        console.error('Error en la solicitud:', err.request)
+        errorMessage.value = 'Fallo de conexión'
+      } else {
+        console.error('Error:', err.message)
+        errorMessage.value = 'Fallo de conexión'
+      }
+    }
+  }
 
   const getLoginUser = async (payload) => {
-    token.value = payload
     if (payload === '') {
-      userDb.value = {}
+      return {}
     } else {
-      userDb.value = jwtDecode(payload)
-      await router.push({ name: 'Dashboard' })
+      return jwtDecode(payload)
     }
   }
 
@@ -23,8 +58,9 @@ export const useAuthStore = defineStore('authStore', () => {
     await getLoginUser(payload)
   }
 
-  const closeLoginUser = async () => {
+  const logout = async () => {
     userDb.value = {}
+    token.value = ''
     localStorage.removeItem('token')
     await router.push({ name: 'Login' })
   }
@@ -41,9 +77,12 @@ export const useAuthStore = defineStore('authStore', () => {
   return {
     userDb,
     token,
+    errorMessage,
+    initAuth,
     getLoginUser,
     saveLoginUser,
-    closeLoginUser,
+    logout,
+    login,
     readToken
   }
 })

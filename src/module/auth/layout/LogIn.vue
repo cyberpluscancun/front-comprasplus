@@ -1,3 +1,21 @@
+<script setup>
+import { useAuthStore } from '@/store/auth/useAuthStore.js'
+import { ref } from 'vue'
+
+const authStore = useAuthStore()
+
+const email = ref('')
+const password = ref('')
+
+const onLogin = () => {
+  const payload = {
+    Email: email.value,
+    Password: password.value
+  }
+  console.log(payload)
+  authStore.login(payload)
+}
+</script>
 <template>
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -8,17 +26,16 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" action="#" method="POST">
+      <form @submit.prevent="onLogin" class="space-y-6">
         <div>
-          <label for="username" class="block text-sm font-medium leading-6 text-gray-900"
-            >Usuario</label
-          >
+          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
           <div class="mt-2">
             <input
-              id="username"
-              name="username"
-              type="text"
-              autocomplete="username"
+              v-model="email"
+              id="email"
+              name="mail"
+              type="email"
+              autocomplete="email"
               required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
@@ -33,6 +50,7 @@
           </div>
           <div class="mt-2">
             <input
+              v-model="password"
               id="password"
               name="password"
               type="password"
@@ -50,9 +68,9 @@
           >
             Acceder
           </button>
+          <p v-if="authStore.errorMessage" class="error">{{ authStore.errorMessage }}</p>
         </div>
       </form>
     </div>
   </div>
 </template>
-<script setup lang="ts"></script>
