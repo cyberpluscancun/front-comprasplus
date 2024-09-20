@@ -1,9 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
+import { userService } from '@/services/user/user-service.js'
 
 export const useUserStore = defineStore('userStore', () => {
   const users = ref([])
+  const afterPage = ref(null)
+  const beforePage = ref(null)
+  const totalDocuments = ref(0)
   const isLoading = ref(false)
   const error = ref(null)
 
@@ -11,13 +14,13 @@ export const useUserStore = defineStore('userStore', () => {
     isLoading.value = true
     error.value = null
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/users`)
-      if (!response.ok) {
-        throw new Error('Failed to load users')
-      }
-      let data = await response.json()
-      users.value = data.map((user) => ({ ...user, UserId: String(user.UserId) }))
-      console.log(users.value)
+      const response = await userService.get(`/api/v1/users`)
+      const data = response.data
+      console.log(data)
+      users.value = data.users.map((user) => ({ ...user, UserId: String(user.UserId) }))
+      afterPage.value = data.afterPage
+      beforePage.value = data.beforePage
+      totalDocuments.value = data.count
     } catch (err) {
       error.value = err.message
       console.error('Error loading users:', err)

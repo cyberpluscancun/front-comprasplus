@@ -2,6 +2,7 @@
 import { useRoute } from 'vue-router'
 import UserListView from '@/module/requisition/views/users/UserListView.vue'
 import DocumentListView from '@/module/requisition/views/documents/DocumentListView.vue'
+import ModalComponent from '@/commons/ModalComponent.vue'
 
 const route = useRoute()
 </script>
@@ -12,6 +13,7 @@ const route = useRoute()
   </div>
 
   <div v-else class="w-screen h-screen flex">
+    <ModalComponent />
     <!-- SideBar navigation -->
     <div class="grid place-items-center w-[25rem] h-full bg-background text-white">
       <!-- Contenido de la barra lateral -->

@@ -1,6 +1,7 @@
 <script setup>
 import { useAuthStore } from '@/store/auth/useAuthStore.js'
 import { ref } from 'vue'
+import ModalComponent from '@/commons/ModalComponent.vue'
 
 const authStore = useAuthStore()
 
@@ -17,6 +18,7 @@ const onLogin = () => {
 }
 </script>
 <template>
+  <ModalComponent />
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
       <img class="mx-auto h-10 w-auto" src="@/assets/logo.png" alt="Compras+" />

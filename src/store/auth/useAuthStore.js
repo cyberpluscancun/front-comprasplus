@@ -27,7 +27,7 @@ export const useAuthStore = defineStore('authStore', () => {
       token.value = data.token
 
       userDb.value = await getLoginUser(token.value)
-      console.log(userDb.value)
+      console.log(`Value UserDB ${userDb.value.UserId}`)
       await saveLoginUser(data.token)
 
       await router.push({ name: 'Dashboard' })
@@ -65,6 +65,15 @@ export const useAuthStore = defineStore('authStore', () => {
     await router.push({ name: 'Login' })
   }
 
+  const getToken = async () => {
+    return localStorage.getItem('token')
+  }
+
+  const getUserId = async () => {
+    const userDB = await getLoginUser(await getToken())
+    return userDB.UserId
+  }
+
   const readToken = async () => {
     const token = localStorage.getItem('token')
     if (token) {
@@ -79,6 +88,8 @@ export const useAuthStore = defineStore('authStore', () => {
     token,
     errorMessage,
     initAuth,
+    getToken,
+    getUserId,
     getLoginUser,
     saveLoginUser,
     logout,

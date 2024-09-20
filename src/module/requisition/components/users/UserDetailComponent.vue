@@ -21,12 +21,12 @@ const userRoleItems = roleItems
 let tempOriginalValues = ref({})
 let blankValues = ref({})
 
-const originalValues = ref({
+const originalUserValues = ref({
   UserId: paramsId.value,
-  email: '',
-  name: '',
-  lastnamefather: '',
-  lastnamemother: '',
+  Email: '',
+  Name: '',
+  LastNameFather: '',
+  LastNameMother: '',
   Picture: '',
   Auth1: false,
   Auth2: false,
@@ -64,7 +64,7 @@ const fetchUserById = (id) => {
   const user = userStore.getUserByID(id)
   if (user) {
     console.log(`Este es el user -> ${user}`)
-    originalValues.value = { ...user }
+    originalUserValues.value = { ...user }
     isChecked1.value = !!user.Auth1
     isChecked2.value = !!user.Auth2
     selectedRoleItem.value = user.Role
@@ -72,24 +72,24 @@ const fetchUserById = (id) => {
   } else {
     console.warn(`Usuario con ID ${id} no encontrado`)
   }
-  console.log(originalValues.value)
+  console.log(originalUserValues.value)
   return user
 }
 
 function alternateEdit() {
   isEdit.value = true
-  tempOriginalValues.value = { ...originalValues.value }
+  tempOriginalValues.value = { ...originalUserValues.value }
 }
 
 function cancelEdit() {
   isEdit.value = false
-  originalValues.value = { ...tempOriginalValues.value }
+  originalUserValues.value = { ...tempOriginalValues.value }
   selectedRoleText.value = 'Seleccionar'
 }
 
 function resetForm() {
   isEdit.value = true
-  originalValues.value = { ...blankValues }
+  originalUserValues.value = { ...blankValues }
   isChecked1.value = false
   isChecked2.value = false
   selectedRoleItem.value = ''
@@ -97,17 +97,17 @@ function resetForm() {
 
 function saveUser() {
   const savedUser = {
-    UserId: originalValues.value.UserId,
-    email: originalValues.value.email,
-    name: originalValues.value.name,
-    lastnamefather: originalValues.value.lastnamefather,
-    lastnamemother: originalValues.value.lastnamemother,
-    Picture: originalValues.value.Picture,
+    UserId: originalUserValues.value.UserId,
+    Email: originalUserValues.value.Email,
+    Name: originalUserValues.value.Name,
+    LastNameFather: originalUserValues.value.LastNameFather,
+    LastNameMother: originalUserValues.value.LastNameMother,
+    Picture: originalUserValues.value.Picture,
     Auth1: isChecked1.value,
     Auth2: isChecked2.value,
-    CostCenter: originalValues.value.CostCenter,
-    CspDepotId: originalValues.value.CspDepotId,
-    Disable: originalValues.value.Disable,
+    CostCenter: originalUserValues.value.CostCenter,
+    CspDepotId: originalUserValues.value.CspDepotId,
+    Disable: originalUserValues.value.Disable,
     Role: selectedRoleItem.value
   }
 
@@ -140,7 +140,7 @@ function selectRole(item) {
             Nombres
           </label>
           <InputComponent
-            v-model="originalValues.name"
+            v-model="originalUserValues.Name"
             id="firstName"
             type="text"
             required
@@ -158,7 +158,7 @@ function selectRole(item) {
               Apellido Paterno
             </label>
             <InputComponent
-              v-model="originalValues.lastnamefather"
+              v-model="originalUserValues.LastNameFather"
               id="lastNamePaternal"
               type="text"
               required
@@ -175,7 +175,7 @@ function selectRole(item) {
               Apellido Materno
             </label>
             <InputComponent
-              v-model="originalValues.lastnamemother"
+              v-model="originalUserValues.LastNameMother"
               id="lastNameMaternal"
               type="text"
               required
@@ -303,7 +303,7 @@ function selectRole(item) {
               Contraseña
             </label>
             <InputComponent
-              v-model="originalValues.password"
+              v-model="originalUserValues.password"
               id="password"
               type="password"
               required
@@ -320,7 +320,7 @@ function selectRole(item) {
               Repetir contraseña
             </label>
             <InputComponent
-              v-model="originalValues.repeatPassword"
+              v-model="originalUserValues.repeatPassword"
               id="repeatPassword"
               type="password"
               required

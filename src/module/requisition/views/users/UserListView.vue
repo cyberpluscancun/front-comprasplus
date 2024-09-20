@@ -15,12 +15,12 @@ onMounted(async () => {
   console.log(userStore.users)
 })
 
-function goToUserDetail(id) {
+const goToUserDetail = (id) => {
   console.log(id)
   router.push({ name: 'UserDetail', params: { id } })
 }
 
-function handleNewUser() {
+const handleNewUser = () => {
   userEvent.startCreatingUser()
 }
 
@@ -82,9 +82,9 @@ const { isLoading, error } = userStore
       <PaginatorView :items="userStore.users">
         <template #default="{ item }">
           <UserMiniCardComponent
-            :name="item.name"
-            :email="item.email"
-            :lastnamefather="item.lastnamefather"
+            :Name="item.Name"
+            :Email="item.Email"
+            :LastNameFather="item.LastNameFather"
             @click="() => goToUserDetail(item.UserId)"
           />
         </template>

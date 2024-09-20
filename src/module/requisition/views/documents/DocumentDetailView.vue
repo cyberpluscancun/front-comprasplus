@@ -90,67 +90,74 @@ const saveDocumentItem = () => {
   <div>
     <div class="m-3.5 mt-3.5">
       <nav class="h-[calc(100vh-87vh)] bg-purple rounded-lg">
-        <div class="grid gap-4 p-2 ml-2">
-          <div class="grid grid-cols-6 mt-2.5 gap-4">
-            <div class="h-auto max-w-full">
-              <div class="grid place-items-start">
-                <div class="font-bold">
-                  <h1>Titulo</h1>
-                </div>
-                <div class="font-light">
-                  <h3>{{ documentValues.CostCenterId }} / {{ documentValues.DepotId }}</h3>
-                </div>
-              </div>
-            </div>
-            <div class="h-auto max-w-full">
-              <div class="grid place-items-start">
-                {{ formatDate(documentValues.DocumentDate) }}
-              </div>
-            </div>
-            <div class="h-auto max-w-full">
-              <div class="grid place-items-start">{{ documentValues.FolioUuid }}</div>
-            </div>
-            <div class="h-auto max-w-full">
-              <div class="flex">
+        <div class="p-2">
+          <div class="flex text-sm">
+            <div id="col-1" class="w-[15%] flex">
+              <div class="h-auto w-[5rem]">
                 <div>
-                  <div class="font-bold">
-                    <h1>Autorización1</h1>
+                  <div class="font-bold text-xl">
+                    <h1>Titulo</h1>
                   </div>
-                  <div class="font-light grid place-items-center">
-                    <div class="flex items-center">
-                      <input
-                        :checked="auth1"
-                        id="checked-checkbox"
-                        type="checkbox"
-                        value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        @change="auth1 = !auth1"
-                      />
+                  <div class="font-light">
+                    <h3>{{ documentValues.CostCenterId }} / {{ documentValues.DepotId }}</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="col-2" class="w-[80%] flex">
+              <div class="h-auto max-w-full flex text-sm">
+                <div class="grid place-items-end font-bold mr">Fecha:</div>
+                <div class="grid place-items-end ml-2">
+                  {{ formatDate(documentValues.DocumentDate) }}
+                </div>
+              </div>
+              <div class="grid place-items-end font-bold ml-4">Folio:</div>
+              <div class="grid place-items-end ml-2">
+                <div>{{ documentValues.FolioUuid }}</div>
+              </div>
+              <div class="h-auto flex ml-4">
+                <div class="grid place-items-end">
+                  <div class="ml-4 flex">
+                    <div class="font-bold text-sm ml">
+                      <h1>Autorización1</h1>
+                    </div>
+                    <div class="font-light ml-3">
+                      <div class="flex items-center">
+                        <input
+                          :checked="auth1"
+                          id="checked-checkbox"
+                          type="checkbox"
+                          value=""
+                          class="w-4 h-4 text-blue-600 bg-gray-100 bord er-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          @change="auth1 = !auth1"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div class="ml-4">
-                  <div class="font-bold">
-                    <h1>Autorización2</h1>
-                  </div>
-                  <div class="font-light grid place-items-center">
-                    <div class="flex items-center">
-                      <input
-                        :checked="auth2"
-                        id="checked-checkbox"
-                        type="checkbox"
-                        value=""
-                        class="w-4 h-4 text-blue-600 bg-gray-100 bord er-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                        @change="auth2 = !auth2"
-                      />
+                <div class="grid place-items-end">
+                  <div class="ml-4 flex">
+                    <div class="font-bold text-sm ml">
+                      <h1>Autorización2</h1>
+                    </div>
+                    <div class="font-light ml-3">
+                      <div class="flex items-center">
+                        <input
+                          :checked="auth2"
+                          id="checked-checkbox"
+                          type="checkbox"
+                          value=""
+                          class="w-4 h-4 text-blue-600 bg-gray-100 bord er-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          @change="auth2 = !auth2"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="h-auto max-w-full"></div>
-            <div class="h-auto max-w-full">
-              <div class="grid place-items-center">
+            <div id="col-3" class="w-[15%] grid place-items-end">
+              <div class="h-auto">
                 <div>
                   <button
                     type="button"

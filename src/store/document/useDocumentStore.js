@@ -5,6 +5,9 @@ import { documentService } from '@/services/document/document-service.js'
 export const useDocumentStore = defineStore('documentStore', () => {
   const documents = ref([])
   const documentsItem = ref([])
+  const afterPage = ref(null)
+  const beforePage = ref(null)
+  const totalDocuments = ref(0)
   const isLoading = ref(false)
   const error = ref(null)
 
@@ -13,7 +16,6 @@ export const useDocumentStore = defineStore('documentStore', () => {
     error.value = null
     try {
       const response = await documentService.get(`/api/v1/documents`)
-
       const data = response.data
       console.log(data.documents)
       documents.value = data.documents
@@ -24,6 +26,10 @@ export const useDocumentStore = defineStore('documentStore', () => {
         .sort((a, b) => new Date(b.DocumentDate) - new Date(a.DocumentDate)) // Orden descendente
 
       console.log(documents.value)
+      afterPage.value = data.afterPage
+      beforePage.value = data.beforePage
+      totalDocuments.value = data.count
+      console.log(`${afterPage.value} ${beforePage.value} ${totalDocuments.value}`)
     } catch (err) {
       error.value = err.message
     } finally {
@@ -39,7 +45,7 @@ export const useDocumentStore = defineStore('documentStore', () => {
     isLoading.value = true
     error.value = null
     try {
-      const response = await authService.get('/api/v1/documents')
+      const response = await documentService.get('/api/v1/documents')
 
       const data = response.data
       documentsItem.value = data.documents.map((documentItem) => ({

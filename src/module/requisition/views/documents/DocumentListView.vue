@@ -1,12 +1,15 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import DocumentMiniCardComponent from '@/module/requisition/components/documents/DocumentMiniCardComponent.vue'
 import PaginatorView from '@/module/requisition/views/PaginatorView.vue'
 import { useDocumentStore } from '@/store/document/useDocumentStore.js'
 import { useRouter } from 'vue-router'
+import { useDocumentEvent } from '@/store/document/useDocumentEvent.js'
+import ModalComponent from '@/commons/ModalComponent.vue'
 
 const router = useRouter()
 const documentStore = useDocumentStore()
+const documentEvent = useDocumentEvent()
 
 onMounted(async () => {
   await documentStore.loadDocuments()
@@ -18,17 +21,34 @@ function goToDocumentDetail(id) {
   router.push({ name: 'DocumentDetail', params: { id } })
 }
 
+function handleNewRequest() {
+  documentEvent.startCreatingDocument()
+  console.log(`desde handleNewReq => ${documentEvent.isCreatingNewDocument}`)
+}
+
+watch(
+  () => documentEvent.isCreatingNewDocument,
+  (isCreating) => {
+    console.log(`desde el watch => ${isCreating}`)
+  }
+)
+
 const { isLoading, error } = documentStore
 </script>
 
 <template>
   <div class="w-full">
     <button
+      @click="handleNewRequest"
       type="button"
       class="text-text-white w-full bg-gray focus:ring-4 hover:bg-primary font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
     >
       Nueva Solicitud
     </button>
+  </div>
+
+  <div v-if="documentEvent.isCreatingNewDocument">
+    <ModalComponent />
   </div>
   <div class="mt-2.5">
     <form class="flex items-center max-w-sm mx-auto">

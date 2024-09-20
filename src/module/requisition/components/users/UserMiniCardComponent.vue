@@ -1,9 +1,9 @@
 <script setup>
 // props que recibirá el componente
 const props = defineProps({
-  name: String,
-  email: String,
-  lastnamefather: String
+  Name: String,
+  Email: String,
+  LastNameFather: String
 })
 
 const handleClick = () => {}
@@ -15,17 +15,17 @@ const handleClick = () => {}
       <div class="w-full grid place-items-start">
         <div class="font-bold">
           <!-- Mostrar el título dinámico -->
-          <h1>{{ props.name }}</h1>
+          <h1>{{ props.Name }}</h1>
         </div>
         <div class="font-light">
           <!-- Mostrar la fecha dinámica -->
-          <h3>{{ props.email }}</h3>
+          <h3>{{ props.Email }}</h3>
         </div>
       </div>
 
       <div>
         <!-- Mostrar el folio dinámico -->
-        <h3>{{ props.lastnamefather }}</h3>
+        <h3>{{ props.LastNameFather }}</h3>
       </div>
     </div>
   </div>
