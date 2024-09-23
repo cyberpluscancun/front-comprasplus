@@ -4,6 +4,7 @@ import { documentService } from '@/services/document/document-service.js'
 
 export const useDocumentStore = defineStore('documentStore', () => {
   const documents = ref([])
+  const documentsByFolio = ref([])
   const documentsItem = ref([])
   const afterPage = ref(null)
   const beforePage = ref(null)
@@ -41,12 +42,22 @@ export const useDocumentStore = defineStore('documentStore', () => {
     return documents.value.find((document) => document.DocumentId === id)
   }
 
+  const loadDocumentsItemByFolio = async (folioUuid) => {
+    try {
+      const response = await documentService.getByFolio('/api/v1/documents/document', folioUuid)
+      documentsByFolio.value = response.data
+      console.log(documentsByFolio.value.Items)
+      return response.data
+    } catch (err) {
+      error.value = err.message
+    }
+  }
+
   const loadDocumentsItem = async () => {
     isLoading.value = true
     error.value = null
     try {
       const response = await documentService.get('/api/v1/documents')
-
       const data = response.data
       documentsItem.value = data.documents.map((documentItem) => ({
         ...documentItem,
@@ -68,11 +79,13 @@ export const useDocumentStore = defineStore('documentStore', () => {
 
   return {
     documents,
+    documentsByFolio,
     documentsItem,
     isLoading,
     error,
     loadDocuments,
     getDocumentByID,
+    loadDocumentsItemByFolio,
     loadDocumentsItem,
     loadDocumentsItemByIDDocument
   }

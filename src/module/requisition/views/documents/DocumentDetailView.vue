@@ -34,7 +34,11 @@ onMounted(async () => {
   await documentStore.loadDocuments()
   await documentStore.loadDocumentsItem()
   await fetchDocumentById(paramsId.value)
-  await fetchDocumentsItemByID(paramsId.value)
+  await fetchDocumentsItemByID(documentValues.value.FolioUuid)
+
+  if (documentValues.value.FolioUuid) {
+    await fetchDocumentsItemByFolio(documentValues.value.FolioUuid)
+  }
 })
 
 watch(
@@ -43,6 +47,13 @@ watch(
     paramsId.value = newId
     fetchDocumentById(newId)
     fetchDocumentsItemByID(newId)
+  }
+)
+
+watch(
+  () => documentValues.value.FolioUuid,
+  async (newFolio) => {
+    if (newFolio) await fetchDocumentsItemByFolio(newFolio)
   }
 )
 
@@ -57,6 +68,16 @@ const fetchDocumentById = async (id) => {
     console.log(`Documento con ID ${id} no encontrado`)
   }
   return document
+}
+
+const fetchDocumentsItemByFolio = async (folioUuid) => {
+  const items = await documentStore.loadDocumentsItemByFolio(folioUuid)
+  if (items) {
+    documentItems.value = items.Items
+  } else {
+    console.log(`DocumentItems con Folio ${folioUuid} no encontrados`)
+  }
+  return documentItems.value
 }
 
 const fetchDocumentsItemByID = async (id) => {
