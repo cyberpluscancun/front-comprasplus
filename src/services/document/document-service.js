@@ -5,6 +5,10 @@ export const documentService = {
     return apiClient.get(url)
   },
 
+  getByFolio: (url, folioId) => {
+    return apiClient.get(`${url}/${folioId}`)
+  },
+
   post: (url, data) => {
     return apiClient.post(url, data)
   },
