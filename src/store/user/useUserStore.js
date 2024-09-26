@@ -21,6 +21,7 @@ export const useUserStore = defineStore('userStore', () => {
       afterPage.value = data.afterPage
       beforePage.value = data.beforePage
       totalDocuments.value = data.count
+      console.log(users.value)
     } catch (err) {
       error.value = err.message
       console.error('Error loading users:', err)
@@ -29,8 +30,8 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
-  const getUserByID = (id) => {
-    return users.value.find((user) => user.UserId === id)
+  const getUserByID = async (id) => {
+    return users.value.find((user) => user.UserId === String(id))
   }
 
   return {

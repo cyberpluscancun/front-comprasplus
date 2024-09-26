@@ -1,25 +1,29 @@
 <script setup>
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useDocumentEvent } from '@/store/document/useDocumentEvent.js'
 import ButtonComponent from '@/commons/ButtonComponent.vue'
 import { useAuthStore } from '@/store/auth/useAuthStore.js'
+import { useUserStore } from '@/store/user/useUserStore.js'
 
 const documentEvent = useDocumentEvent()
 const authStore = useAuthStore()
+const userStore = useUserStore()
 const userID = ref(0)
+const user = ref({})
 const DocumentDate = ref('')
 
 onMounted(async () => {
   userID.value = await authStore.getUserId()
-  console.log(userID.value)
+  await userStore.loadUsers()
+  user.value = await userStore.getUserByID(userID.value)
   DocumentDate.value = formatDate(new Date())
 })
 
 const originalDocumentValues = ref({
   Title: '',
   CostCenterId: 0,
-  DepotId: '',
+  DepotId: 0,
   DocumentDate: new Date(),
   CreateBy: userID.value,
   CreateOn: new Date()
@@ -140,10 +144,48 @@ const formatDate = (date) => {
                                 >
                                 <div class="mt-2">
                                   <input
+                                    v-model="user.Email"
                                     id="usuario"
                                     name="usuario"
                                     type="text"
                                     autocomplete="usuario"
+                                    :disabled="true"
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div class="sm:col-span-3">
+                                <label
+                                  for="usuario"
+                                  class="block text-sm font-medium leading-6 text-gray-900"
+                                  >Depot</label
+                                >
+                                <div class="mt-2">
+                                  <input
+                                    id="depot"
+                                    name="depot"
+                                    type="text"
+                                    autocomplete="depot"
+                                    :disabled="true"
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                  />
+                                </div>
+                              </div>
+
+                              <div class="sm:col-span-3">
+                                <label
+                                  for="usuario"
+                                  class="block text-sm font-medium leading-6 text-gray-900"
+                                  >Cost Center</label
+                                >
+                                <div class="mt-2">
+                                  <input
+                                    id="costcenter"
+                                    name="costcenter"
+                                    type="text"
+                                    autocomplete="costcenter"
+                                    :disabled="true"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                   />
                                 </div>
