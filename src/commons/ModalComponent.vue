@@ -5,15 +5,18 @@ import { useDocumentEvent } from '@/store/document/useDocumentEvent.js'
 import ButtonComponent from '@/commons/ButtonComponent.vue'
 import { useAuthStore } from '@/store/auth/useAuthStore.js'
 import { useUserStore } from '@/store/user/useUserStore.js'
+import { useCostCenterStore } from '@/store/costCenter/useCostCenterStore.js'
 
 const documentEvent = useDocumentEvent()
 const authStore = useAuthStore()
 const userStore = useUserStore()
+const costCenterStore = useCostCenterStore()
 const userID = ref(0)
 const user = ref({})
 const DocumentDate = ref('')
 
 onMounted(async () => {
+  await costCenterStore.loadCostCenters()
   userID.value = await authStore.getUserId()
   await userStore.loadUsers()
   user.value = await userStore.getUserByID(userID.value)
