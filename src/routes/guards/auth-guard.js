@@ -16,9 +16,14 @@ export const authGuard = async (to, from, next) => {
     }
   }
 
-  if (protectedRoute) {
-    let token = authStore.token || localStorage.getItem('token')
+  let token = authStore.token || localStorage.getItem('token')
 
+  if (to.name === 'Login' && token && !isTokenExpired(token)) {
+    next({ name: 'Dashboard' }) // O la ruta que maneje tu dashboard
+    return
+  }
+
+  if (protectedRoute) {
     if (!token || isTokenExpired(token)) {
       authStore.token = null
       localStorage.removeItem('token')

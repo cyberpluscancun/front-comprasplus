@@ -114,10 +114,10 @@ const saveDocumentItem = () => {
         <div class="p-2">
           <div class="flex text-sm">
             <div id="col-1" class="w-[15%] flex">
-              <div class="h-auto w-[5rem]">
+              <div class="h-auto w-full">
                 <div>
-                  <div class="font-bold text-xl">
-                    <h1>Titulo</h1>
+                  <div class="font-bold w-full text-lg flex">
+                    <h1>{{ documentValues.Title }}</h1>
                   </div>
                   <div class="font-light">
                     <h3>{{ documentValues.CostCenterId }} / {{ documentValues.DepotId }}</h3>
