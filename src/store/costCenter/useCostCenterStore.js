@@ -8,9 +8,8 @@ export const useCostCenterStore = defineStore('costCenterStore', () => {
   const loadCostCenters = async () => {
     try {
       const response = await costCenterService.get(`/api/v1/costcenters`)
-      console.log(`CostCenters => ${response}`)
-      costCenters.value = response.data
-      console.log(`CostCenters data=> ${costCenters.value}`)
+      costCenters.value = response.data.CostCenters
+      // console.log('CostCenters data=>', costCenters.value)
     } catch (err) {
       console.error(err)
     }

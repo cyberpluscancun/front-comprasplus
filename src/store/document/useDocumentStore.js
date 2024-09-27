@@ -42,6 +42,15 @@ export const useDocumentStore = defineStore('documentStore', () => {
     return documents.value.find((document) => document.DocumentId === id)
   }
 
+  const saveDocument = async (document) => {
+    try {
+      const response = await documentService.post('/api/v1/documents', document)
+      console.log(response)
+    } catch (err) {
+      error.value = err.message
+    }
+  }
+
   const loadDocumentsItemByFolio = async (folioUuid) => {
     try {
       const response = await documentService.getByFolio('/api/v1/documents/document', folioUuid)
@@ -86,6 +95,7 @@ export const useDocumentStore = defineStore('documentStore', () => {
     loadDocuments,
     getDocumentByID,
     loadDocumentsItemByFolio,
+    saveDocument,
     loadDocumentsItem,
     loadDocumentsItemByIDDocument
   }
