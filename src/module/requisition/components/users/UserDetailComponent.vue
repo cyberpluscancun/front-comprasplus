@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 import { useUserEvent } from '@/store/user/useUserEvent.js'
 import { useUserStore } from '@/store/user/useUserStore.js'
 import { roleItems } from '@/module/auth/composable/roles.js'
+import { useDocumentItemStore } from '@/store/document-item/useDocumentItemStore.js'
 
 const route = useRoute()
 const paramsId = ref(route.params.id)
@@ -38,7 +39,7 @@ const originalUserValues = ref({
 
 onMounted(async () => {
   await userStore.loadUsers()
-  fetchUserById(paramsId.value)
+  await fetchUserById(paramsId.value)
 })
 
 watch(

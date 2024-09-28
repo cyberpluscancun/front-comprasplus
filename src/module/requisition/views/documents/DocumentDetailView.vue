@@ -4,15 +4,17 @@ import { onMounted, ref, watch } from 'vue'
 import { useDocumentStore } from '@/store/document/useDocumentStore.js'
 import { formatDate } from '@/services/format-date.js'
 import DocumentItemCardComponent from '@/module/requisition/components/documents/DocumentItemCardComponent.vue'
+import { useDocumentItemStore } from '@/store/document-item/useDocumentItemStore.js'
 
+const documentItemStore = useDocumentItemStore()
 const route = useRoute()
 const { isLoading, error } = useDocumentStore()
 const paramsId = ref(route.params.id || '')
 const auth1 = ref(false)
 const auth2 = ref(false)
 const documentStore = useDocumentStore()
-const documentItems = ref([])
 const blankValues = ref({})
+const documentItems = ref([])
 const documentValues = ref({
   DocumentId: paramsId.value,
   CostCenterId: 0,
@@ -95,14 +97,16 @@ const resetForm = () => {
   documentItemValues.value = { ...blankValues }
 }
 
-const saveDocumentItem = () => {
+const saveDocumentItem = async () => {
   const savedDocumentItem = {
-    DocumentId: paramsId.value,
+    DocumentId: Number(paramsId.value),
     Quantity: documentItemValues.value.Quantity,
     Description: documentItemValues.value.Description,
     Comments: documentItemValues.value.Comments
   }
   console.log(savedDocumentItem)
+  await documentItemStore.saveDocumentItems(savedDocumentItem)
+  await documentStore.loadDocumentsItem()
   resetForm()
 }
 </script>
