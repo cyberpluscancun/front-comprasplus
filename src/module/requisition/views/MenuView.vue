@@ -20,14 +20,14 @@ const logout = async () => {
       <button
         @click="goSettings"
         type="button"
-        class="bg-gray text-background p-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        class="bg-gray text-background p-1 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         <svg
           class="w-6 h-6 text-gray-800 dark:text-white"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="12"
+          height="12"
           fill="none"
           viewBox="0 0 24 24"
         >
@@ -53,14 +53,14 @@ const logout = async () => {
       <button
         @click="logout"
         type="button"
-        class="bg-gray text-background p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        class="bg-gray text-background p-1 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         <svg
           class="w-6 h-6 text-gray-800 dark:text-white"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
+          width="12"
+          height="12"
           fill="none"
           viewBox="0 0 24 24"
         >

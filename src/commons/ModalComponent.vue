@@ -72,7 +72,7 @@ const toggleDropdownCostCenter = () => {
   isDropDownCostOpen.value = !isDropDownCostOpen.value
 }
 
-const selectRole = (item) => {
+const selectCost = (item) => {
   selectedCostItem.value = item.name
   console.log(selectedCostItem.value)
   selectedCostText.value = item.name
@@ -180,20 +180,70 @@ const selectRole = (item) => {
                               </div>
 
                               <div class="sm:col-span-3">
-                                <label
-                                  for="usuario"
-                                  class="block text-sm font-medium leading-6 text-gray-900"
-                                  >Depot</label
-                                >
-                                <div class="mt-2">
-                                  <input
-                                    id="depot"
-                                    name="depot"
-                                    type="text"
-                                    autocomplete="depot"
-                                    :disabled="true"
-                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                  />
+                                <div id="dropdown-role" class="w-[10rem] mb-3 ml-4">
+                                  <label
+                                    for="lastNameMaternal"
+                                    class="block text-sm font-medium text-gray-900 dark:text-white"
+                                  >
+                                    Depot
+                                  </label>
+
+                                  <button
+                                    id="dropdownHelperRadioButton"
+                                    data-dropdown-toggle="dropdownHelperRadio"
+                                    class="text-text-white h-[2.3rem] w-full mt-2 bg-gray hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    type="button"
+                                    @click="toggleDropdownCostCenter"
+                                  >
+                                    {{ selectedCostText }}
+                                    <svg
+                                      class="w-2.5 h-2.5 ms-2.5"
+                                      aria-hidden="true"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 10 6"
+                                    >
+                                      <path
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="m1 1 4 4 4-4"
+                                      />
+                                    </svg>
+                                  </button>
+
+                                  <div
+                                    v-if="isDropDownCostOpen"
+                                    id="dropdownHelperRadio"
+                                    class="absolute z-50 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
+                                  >
+                                    <ul
+                                      class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
+                                      aria-labelledby="dropdownHelperRadioButton"
+                                    >
+                                      <li v-for="(item, index) in costCenters" :key="index">
+                                        <div
+                                          class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+                                          @click="selectCost(item)"
+                                        >
+                                          <input
+                                            :id="'radio-item-' + index"
+                                            name="helper-radio"
+                                            type="radio"
+                                            :value="item"
+                                            v-model="selectedCostItem"
+                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                          />
+                                          <label
+                                            :for="'radio-item-' + index"
+                                            class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                                            >{{ item.name }}</label
+                                          >
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
                                 </div>
                               </div>
 
@@ -243,7 +293,7 @@ const selectRole = (item) => {
                                       <li v-for="(item, index) in costCenters" :key="index">
                                         <div
                                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
-                                          @click="selectRole(item)"
+                                          @click="selectCost(item)"
                                         >
                                           <input
                                             :id="'radio-item-' + index"
