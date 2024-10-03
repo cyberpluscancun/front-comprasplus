@@ -37,6 +37,8 @@ const { isLoading, error } = documentStore
 </script>
 
 <template>
+  <div class="p-0">
+    
   <div class="w-full">
     <button
       @click="handleNewRequest"
@@ -95,6 +97,7 @@ const { isLoading, error } = documentStore
         <template #default="{ item }">
           <DocumentMiniCardComponent
             :DocumentId="item.DocumentId"
+            :Title="item.Title"
             :DocumentDate="item.DocumentDate"
             :FolioUuid="item.FolioUuid"
             @click="() => goToDocumentDetail(item.DocumentId)"
@@ -102,6 +105,7 @@ const { isLoading, error } = documentStore
         </template>
       </PaginatorView>
     </div>
+  </div>
   </div>
 </template>
 

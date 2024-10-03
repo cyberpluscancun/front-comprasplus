@@ -18,18 +18,14 @@ const route = useRoute()
     <div class="grid place-items-center w-[25rem] h-full bg-background text-white">
       <!-- Contenido de la barra lateral -->
       <div>
-        <div class="h-[6.25rem] bg-gray-900 text-zinc-950">
+        <div class="h-[3rem] bg-gray-900 text-zinc-950">
           <div>
-            <a
-              href="http://localhost:5173/"
-              class="flex items-center space-x-3 rtl:space-x-reverse"
-            >
-              <img class="mt-8 mx-auto h-10 w-auto" src="@/assets/logo.png" alt="Compras+" />
-            </a>
+            
+              <img class="mt-8 mx-auto h-7 w-auto" src="@/assets/logo.png" alt="Compras+" />
           </div>
         </div>
         <!-- Botón y formulario -->
-        <div id="minicard-container">
+        <div id="minicard-container" class="p-0">
           <UserListView v-if="route.path.includes('/dashboard/settings/users')" />
           <DocumentListView v-else />
         </div>

@@ -3,6 +3,7 @@ import { formatDate } from '@/services/format-date.js'
 
 const props = defineProps({
   DocumentId: String,
+  Title: String,
   DocumentDate: String,
   FolioUuid: String
 })
@@ -14,7 +15,7 @@ const handleClick = () => {}
   <div @click="handleClick" class="bg-card block rounded-lg h-[4rem] mt-2.5 cursor-pointer">
     <div class="grid bg-purple rounded-t-lg place-items-start">
       <div class="text-sm ml-4 font-bold">
-        <h1>{{ props.DocumentId }}</h1>
+        <h1>{{ props.Title }}</h1>
       </div>
     </div>
 
