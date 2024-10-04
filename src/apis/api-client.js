@@ -6,6 +6,10 @@ const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL
 })
 
+const apiClientContpaq = axios.create({
+  baseURL: import.meta.env.VITE_API_URL_COM
+})
+
 apiClient.interceptors.request.use((config) => {
   const authStore = useAuthStore()
   const token = authStore.$state.token
@@ -17,4 +21,15 @@ apiClient.interceptors.request.use((config) => {
   return config
 })
 
-export { apiClient }
+apiClientContpaq.interceptors.request.use((config) => {
+  const authStore = useAuthStore()
+  const token = authStore.$state.token
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+
+  return config
+})
+
+export { apiClient, apiClientContpaq }

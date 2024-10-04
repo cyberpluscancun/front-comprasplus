@@ -7,24 +7,33 @@ import { useAuthStore } from '@/store/auth/useAuthStore.js'
 import { useUserStore } from '@/store/user/useUserStore.js'
 import { useCostCenterStore } from '@/store/costCenter/useCostCenterStore.js'
 import { useDocumentStore } from '@/store/document/useDocumentStore.js'
+import { useDepotStore } from '@/store/depot/useDepotStore'
 
 const documentEvent = useDocumentEvent()
 const authStore = useAuthStore()
 const documentStore = useDocumentStore()
 const userStore = useUserStore()
 const costCenterStore = useCostCenterStore()
+const depotStore = useDepotStore()
 const costCenters = ref([])
+const depots = ref([])
 const userID = ref(0)
 const user = ref({})
 const DocumentDate = ref('')
 const isDropDownCostOpen = ref(false)
+const isDropDownDepotOpen = ref(false)
 const selectedCostItem = ref('')
+const selectedDepotItem = ref('')
 const selectedCostText = ref('Seleccionar')
+const selectedDepotText = ref('Seleccionar')
 
 onMounted(async () => {
   await costCenterStore.loadCostCenters()
+  await depotStore.loadDepots()
   costCenters.value = costCenterStore.costCenters
+  depots.value = depotStore.depots
   console.log(costCenters.value)
+  console.log(depots.value)
   userID.value = await authStore.getUserId()
   await userStore.loadUsers()
   user.value = await userStore.getUserByID(userID.value)
@@ -34,7 +43,7 @@ onMounted(async () => {
 const originalDocumentValues = ref({
   Title: '',
   CostCenterId: '',
-  DepotId: 0,
+  DepotId: '',
   DocumentDate: new Date(),
   CreateBy: userID.value,
   CreateOn: new Date()
@@ -44,7 +53,7 @@ const saveNewDocument = () => {
   const newDocument = {
     Title: originalDocumentValues.value.Title,
     CostCenterId: originalDocumentValues.value.CostCenterId,
-    DepotId: originalDocumentValues.value.DepotId,
+    DepotId: Number(originalDocumentValues.value.DepotId),
     DocumentDate: originalDocumentValues.value.DocumentDate,
     CreateBy: userID.value,
     CreateOn: originalDocumentValues.value.CreateOn
@@ -72,12 +81,24 @@ const toggleDropdownCostCenter = () => {
   isDropDownCostOpen.value = !isDropDownCostOpen.value
 }
 
+const toggleDropdownDepot = () => {
+  isDropDownDepotOpen.value = !isDropDownDepotOpen.value
+}
+
 const selectCost = (item) => {
   selectedCostItem.value = item.name
   console.log(selectedCostItem.value)
   selectedCostText.value = item.name
   originalDocumentValues.value.CostCenterId = item.id
   isDropDownCostOpen.value = false
+}
+
+const selectDepot = (item) => {
+  selectedDepotItem.value = item.DepotName
+  console.log(selectedDepotItem.value)
+  selectedDepotText.value = item.DepotName
+  originalDocumentValues.value.DepotId = item.DepotId
+  isDropDownDepotOpen.value = false
 }
 </script>
 
@@ -193,9 +214,9 @@ const selectCost = (item) => {
                                     data-dropdown-toggle="dropdownHelperRadio"
                                     class="text-text-white h-[2.3rem] w-full mt-2 bg-gray hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                     type="button"
-                                    @click="toggleDropdownCostCenter"
+                                    @click="toggleDropdownDepot"
                                   >
-                                    {{ selectedCostText }}
+                                    {{ selectedDepotText }}
                                     <svg
                                       class="w-2.5 h-2.5 ms-2.5"
                                       aria-hidden="true"
@@ -214,32 +235,18 @@ const selectCost = (item) => {
                                   </button>
 
                                   <div
-                                    v-if="isDropDownCostOpen"
-                                    id="dropdownHelperRadio"
+                                    v-if="isDropDownDepotOpen"
                                     class="absolute z-50 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
                                   >
                                     <ul
                                       class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
-                                      aria-labelledby="dropdownHelperRadioButton"
                                     >
-                                      <li v-for="(item, index) in costCenters" :key="index">
+                                      <li v-for="(item, index) in depots" :key="index">
                                         <div
+                                          @click="selectDepot(item)"
                                           class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
-                                          @click="selectCost(item)"
                                         >
-                                          <input
-                                            :id="'radio-item-' + index"
-                                            name="helper-radio"
-                                            type="radio"
-                                            :value="item"
-                                            v-model="selectedCostItem"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                          />
-                                          <label
-                                            :for="'radio-item-' + index"
-                                            class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                                            >{{ item.name }}</label
-                                          >
+                                          <label>{{ item.DepotName }}</label>
                                         </div>
                                       </li>
                                     </ul>
@@ -283,31 +290,17 @@ const selectCost = (item) => {
 
                                   <div
                                     v-if="isDropDownCostOpen"
-                                    id="dropdownHelperRadio"
                                     class="absolute z-50 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
                                   >
                                     <ul
                                       class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
-                                      aria-labelledby="dropdownHelperRadioButton"
                                     >
                                       <li v-for="(item, index) in costCenters" :key="index">
                                         <div
-                                          class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
                                           @click="selectCost(item)"
+                                          class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
                                         >
-                                          <input
-                                            :id="'radio-item-' + index"
-                                            name="helper-radio"
-                                            type="radio"
-                                            :value="item"
-                                            v-model="selectedCostItem"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                          />
-                                          <label
-                                            :for="'radio-item-' + index"
-                                            class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                                            >{{ item.name }}</label
-                                          >
+                                          <label>{{ item.name }}</label>
                                         </div>
                                       </li>
                                     </ul>

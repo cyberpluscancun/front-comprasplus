@@ -16,7 +16,7 @@ const logout = async () => {
 
 <template>
   <div class="h-[4rem] rounded-lg mt-3.5 flex justify-between w-full">
-    <div>
+    <div class="p-2">
       <button
         @click="goSettings"
         type="button"
@@ -49,7 +49,7 @@ const logout = async () => {
         <span class="sr-only">Config</span>
       </button>
     </div>
-    <div class="ml-auto">
+    <div class="p-2">
       <button
         @click="logout"
         type="button"
