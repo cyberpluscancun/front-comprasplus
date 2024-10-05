@@ -106,7 +106,7 @@ const saveDocumentItem = async () => {
   }
   console.log(savedDocumentItem)
   await documentItemStore.saveDocumentItems(savedDocumentItem)
-  await documentStore.loadDocumentsItem()
+  documentItems.value.push(savedDocumentItem)
   resetForm()
 }
 </script>
