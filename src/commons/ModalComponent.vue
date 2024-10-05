@@ -236,7 +236,7 @@ const selectDepot = (item) => {
 
                                   <div
                                     v-if="isDropDownDepotOpen"
-                                    class="absolute z-50 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
+                                    class="absolute z-99 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
                                   >
                                     <ul
                                       class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
@@ -290,7 +290,7 @@ const selectDepot = (item) => {
 
                                   <div
                                     v-if="isDropDownCostOpen"
-                                    class="absolute z-50 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
+                                    class="absolute z-99 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
                                   >
                                     <ul
                                       class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"

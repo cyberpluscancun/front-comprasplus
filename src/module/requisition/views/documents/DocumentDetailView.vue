@@ -62,7 +62,6 @@ watch(
 const fetchDocumentById = async (id) => {
   const document = await documentStore.getDocumentByID(id)
   if (document) {
-    console.log(document)
     documentValues.value = { ...document }
     auth1.value = document.Auth1
     auth2.value = document.Auth2
@@ -74,12 +73,7 @@ const fetchDocumentById = async (id) => {
 
 const fetchDocumentsItemByFolio = async (folioUuid) => {
   const items = await documentStore.loadDocumentsItemByFolio(folioUuid)
-  if (items) {
-    documentItems.value = items.Items
-  } else {
-    console.log(`DocumentItems con Folio ${folioUuid} no encontrados`)
-  }
-  return documentItems.value
+  documentItems.value = items ? items.Items : []
 }
 
 const fetchDocumentsItemByID = async (id) => {
