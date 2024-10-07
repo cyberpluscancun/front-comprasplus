@@ -11,15 +11,19 @@ const router = useRouter()
 const documentStore = useDocumentStore()
 const documentEvent = useDocumentEvent()
 const searchFilter = ref('')
+const isSearching = ref(false)
+
+// Define the number of items per page
+const itemsPerPage = 5 
 
 onMounted(async () => {
   await documentStore.loadDocuments()
   console.log(documentStore.documents)
 })
 
-function goToDocumentDetail(id) {
-  console.log(id)
-  router.push({ name: 'DocumentDetail', params: { id } })
+function goToDocumentDetail(folioUuid) {
+  console.log(folioUuid)
+  router.push({ name: 'DocumentDetail', params: { folioUuid } })
 }
 
 function handleNewRequest() {
@@ -35,9 +39,19 @@ watch(
 )
 
 const searchDocument = async () => {
-  const document = documentStore.getDocumentByFolio(searchFilter.value)
-  console.log(document)
-  if (document) goToDocumentDetail(document.DocumentId)
+  if (searchFilter.value.trim() === '') {
+    return
+  }
+  if (isSearching.value) {
+    searchFilter.value = ''
+    isSearching.value = false
+  } else {
+    console.log(searchFilter.value)
+    const documents = await documentStore.getDocumentsByQuery(String(searchFilter.value))
+    console.log(documents)
+    isSearching.value = true
+    documentStore.filteredDocuments = documents
+  }
 }
 
 const { isLoading, error } = documentStore
@@ -77,19 +91,36 @@ const { isLoading, error } = documentStore
           class="bg-primary text-background p-2 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           <svg
-            class="w-4 h-4"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
+            v-if="isSearching"
+            class="h-4 w-4 text-red-500"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
             fill="none"
-            viewBox="0 0 20 20"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+          <svg
+            v-else
+            class="h-4 w-4 text-red-500"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <circle cx="10" cy="10" r="7" />
+            <line x1="21" y1="21" x2="15" y2="15" />
           </svg>
           <span class="sr-only">Buscar</span>
         </button>
@@ -101,14 +132,17 @@ const { isLoading, error } = documentStore
 
         <div v-if="error" class="error">Error al cargar documentos: {{ error }}</div>
 
-        <PaginatorView :items="documentStore.documents">
+        <PaginatorView
+          :items="isSearching ? documentStore.filteredDocuments : documentStore.documents"
+          :items-per-page="itemsPerPage"
+        >
           <template #default="{ item }">
             <DocumentMiniCardComponent
-              :DocumentId="item.DocumentId"
+              :DocumentId="String(item.DocumentId)"
               :Title="item.Title"
               :DocumentDate="item.DocumentDate"
               :FolioUuid="item.FolioUuid"
-              @click="() => goToDocumentDetail(item.DocumentId)"
+              @click="() => goToDocumentDetail(item.FolioUuid)"
             />
           </template>
         </PaginatorView>

@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue'
 import MenuView from '@/module/requisition/views/MenuView.vue'
 
-// Props
 const props = defineProps({
   items: {
     type: Array,
@@ -74,7 +73,7 @@ const onClickNextPage = () => {
 <template>
   <div class="block w-[17rem] h-[calc(100vh-6.25rem)] bg-gray-800 text-center">
     <div class="mt-2.5 h-[70%] mini-card-view-container rounded-lg">
-      <div v-for="item in paginatedItems" :key="item.id">
+      <div v-for="item in paginatedItems" :key="item.DocumentId">
         <slot :item="item" />
       </div>
       <div class="mb-5 mt-0 grid place-items-center">

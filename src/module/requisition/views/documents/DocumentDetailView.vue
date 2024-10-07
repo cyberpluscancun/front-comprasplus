@@ -9,14 +9,15 @@ import { useDocumentItemStore } from '@/store/document-item/useDocumentItemStore
 const documentItemStore = useDocumentItemStore()
 const route = useRoute()
 const { isLoading, error } = useDocumentStore()
-const paramsId = ref(route.params.id || '')
+const paramsFolio = ref(route.params.folioUuid || '')
 const auth1 = ref(false)
 const auth2 = ref(false)
+const showAuth2Checkbox = ref(false)
 const documentStore = useDocumentStore()
 const blankValues = ref({})
 const documentItems = ref([])
 const documentValues = ref({
-  DocumentId: paramsId.value,
+  DocumentId: 0,
   CostCenterId: 0,
   DepotId: 0,
   FolioUuid: '',
@@ -26,7 +27,7 @@ const documentValues = ref({
   Auth2: false
 })
 const documentItemValues = ref({
-  DocumentId: paramsId.value,
+  DocumentId: 0,
   Quantity: 0,
   Description: '',
   Comments: ''
@@ -35,32 +36,24 @@ const documentItemValues = ref({
 onMounted(async () => {
   await documentStore.loadDocuments()
   await documentStore.loadDocumentsItem()
-  await fetchDocumentById(paramsId.value)
-  await fetchDocumentsItemByID(documentValues.value.FolioUuid)
-
-  if (documentValues.value.FolioUuid) {
-    await fetchDocumentsItemByFolio(documentValues.value.FolioUuid)
-  }
+  await fetchDocumentsItemByFolio(paramsFolio.value)
 })
 
 watch(
-  () => route.params.id,
-  (newId) => {
-    paramsId.value = newId
-    fetchDocumentById(newId)
-    fetchDocumentsItemByID(newId)
+  () => route.params.folioUuid,
+  (newFolio) => {
+    paramsFolio.value = newFolio
+    fetchDocumentsItemByFolio(newFolio)
   }
 )
 
-watch(
-  () => documentValues.value.FolioUuid,
-  async (newFolio) => {
-    if (newFolio) await fetchDocumentsItemByFolio(newFolio)
-  }
-)
+watch(auth1, (newValue) => {
+  showAuth2Checkbox.value = newValue
+})
 
-const fetchDocumentById = async (id) => {
-  const document = await documentStore.getDocumentByID(id)
+const fetchDocumentsItemByFolio = async (folioUuid) => {
+  const response = await documentStore.loadDocumentsItemByFolio(folioUuid)
+  const document = response.Document
   if (document) {
     documentValues.value = { ...document }
     auth1.value = document.Auth1
@@ -68,23 +61,8 @@ const fetchDocumentById = async (id) => {
   } else {
     console.log(`Documento con ID ${id} no encontrado`)
   }
+  documentItems.value = response ? response.Items : []
   return document
-}
-
-const fetchDocumentsItemByFolio = async (folioUuid) => {
-  const items = await documentStore.loadDocumentsItemByFolio(folioUuid)
-  documentItems.value = items ? items.Items : []
-}
-
-const fetchDocumentsItemByID = async (id) => {
-  const items = await documentStore.loadDocumentsItemByIDDocument(id)
-  if (items) {
-    documentItems.value = items
-    console.log('DocumentsItem =>', documentItems.value)
-  } else {
-    console.log(`DocumentItems con ID ${id} no encontrados`)
-  }
-  return documentItems.value
 }
 
 const resetForm = () => {
@@ -93,7 +71,7 @@ const resetForm = () => {
 
 const saveDocumentItem = async () => {
   const savedDocumentItem = {
-    DocumentId: Number(paramsId.value),
+    DocumentId: Number(documentValues.value.DocumentId),
     Quantity: documentItemValues.value.Quantity,
     Description: documentItemValues.value.Description,
     Comments: documentItemValues.value.Comments
@@ -147,14 +125,14 @@ const saveDocumentItem = async () => {
                           id="checked-checkbox"
                           type="checkbox"
                           value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 bord er-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           @change="auth1 = !auth1"
                         />
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="grid place-items-end">
+                <div v-if="documentValues.Auth1" class="grid place-items-end">
                   <div class="ml-4 flex">
                     <div class="font-bold text-sm ml">
                       <h1>Autorización2</h1>
@@ -166,7 +144,7 @@ const saveDocumentItem = async () => {
                           id="checked-checkbox"
                           type="checkbox"
                           value=""
-                          class="w-4 h-4 text-blue-600 bg-gray-100 bord er-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                          class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                           @change="auth2 = !auth2"
                         />
                       </div>
@@ -205,7 +183,7 @@ const saveDocumentItem = async () => {
                   v-model="documentItemValues.Quantity"
                   type="number"
                   id="quantity"
-                  class="bg-gray-50 border w-[5.6ren] h-[2rem] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-50 border w-[5.6rem] h-[2rem] border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Cantidad"
                   required
                 />

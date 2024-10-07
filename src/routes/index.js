@@ -13,7 +13,7 @@ const router = createRouter({
       meta: { requireAuth: true },
       children: [
         {
-          path: 'documents/:id',
+          path: 'documents/:folioUuid',
           name: 'DocumentDetail',
           component: () => import('@/module/requisition/views/documents/DocumentDetailView.vue')
         },

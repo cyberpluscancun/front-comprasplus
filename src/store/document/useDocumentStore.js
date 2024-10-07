@@ -4,6 +4,7 @@ import { documentService } from '@/services/document/document-service.js'
 
 export const useDocumentStore = defineStore('documentStore', () => {
   const documents = ref([])
+  const filteredDocuments = ref([])
   const documentsByFolio = ref([])
   const documentsItem = ref([])
   const afterPage = ref(null)
@@ -45,6 +46,27 @@ export const useDocumentStore = defineStore('documentStore', () => {
   const getDocumentByFolio = (folio) => {
     return documents.value.find((document) => document.FolioUuid === folio)
   }
+
+  const getDocumentsByQuery = async (query) => {
+    if (!query) {
+      console.error('Query is undefined or empty')
+      return
+    }
+    const response = await documentService.getByQuery(`/api/v1/searchs/documents`, query)
+    const data = response.data
+    filteredDocuments.value = data.documents
+    console.log(filteredDocuments.value)
+    return data.documents
+  }
+
+  /*
+  const getDocumentsByQuery = (query) => {
+    filteredDocuments.value = documents.value.filter(
+      (document) => document.Title.includes(query) || document.FolioUuid.includes(query)
+    )
+    return filteredDocuments.value
+  }
+  */
 
   const saveDocument = async (document) => {
     try {
@@ -92,6 +114,7 @@ export const useDocumentStore = defineStore('documentStore', () => {
 
   return {
     documents,
+    filteredDocuments,
     documentsByFolio,
     documentsItem,
     isLoading,
@@ -99,6 +122,7 @@ export const useDocumentStore = defineStore('documentStore', () => {
     loadDocuments,
     getDocumentByID,
     getDocumentByFolio,
+    getDocumentsByQuery,
     loadDocumentsItemByFolio,
     saveDocument,
     loadDocumentsItem,

@@ -9,6 +9,11 @@ export const documentService = {
     return apiClient.get(`${url}/${folioId}`)
   },
 
+  getByQuery: (url, query) => {
+    console.log(`${url}?data=${query}`)
+    return apiClient.get(`${url}?data=${query}`)
+  },
+
   post: (url, data) => {
     return apiClient.post(url, data)
   },
