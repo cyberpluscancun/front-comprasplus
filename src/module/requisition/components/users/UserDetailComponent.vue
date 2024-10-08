@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
 import InputComponent from '@/commons/InputComponent.vue'
 import ButtonComponent from '@/commons/ButtonComponent.vue'
 import { useRoute } from 'vue-router'
@@ -20,7 +20,21 @@ const selectedRoleItem = ref('')
 const selectedRoleText = ref('Seleccionar')
 const userRoleItems = roleItems
 let tempOriginalValues = ref({})
-let blankValues = ref({})
+
+let blankValues = {
+  UserId: '',
+  Email: '',
+  Name: '',
+  LastNameFather: '',
+  LastNameMother: '',
+  Picture: '',
+  Auth1: false,
+  Auth2: false,
+  CostCenter: '',
+  CspDepotId: '',
+  Disable: false,
+  Role: ''
+}
 
 const originalUserValues = ref({
   UserId: paramsId.value,
@@ -35,6 +49,10 @@ const originalUserValues = ref({
   CspDepotId: '',
   Disable: false,
   Role: ''
+})
+
+const formValues = computed(() => {
+  return isEdit.value ? originalUserValues.value : blankValues;
 })
 
 onMounted(async () => {
@@ -54,12 +72,18 @@ watch(
   () => userEvent.isCreatingNewUser,
   (isCreating) => {
     if (isCreating) {
-      // Limpiar inputs y activar modo de edición
+      console.log('Creando nuevo usuario, restableciendo formulario...')
       resetForm()
       userEvent.stopCreatingUser()
     }
   }
 )
+
+watch(isEdit, (newValue) => {
+  if (!newValue) {
+    originalUserValues.value = { ...blankValues }
+  }
+});
 
 const fetchUserById = async (id) => {
   const user = await userStore.getUserByID(id)
@@ -90,15 +114,16 @@ function cancelEdit() {
 
 function resetForm() {
   isEdit.value = true
-  originalUserValues.value = { ...blankValues }
+  originalUserValues.value = { ...blankValues } // Asegúrate de hacer una copia
+  console.log(originalUserValues.value) // Verifica que todos los campos se hayan actualizado
   isChecked1.value = false
   isChecked2.value = false
   selectedRoleItem.value = ''
+  selectedRoleText.value = 'Seleccionar' // Resetear el texto del rol
 }
 
-function saveUser() {
+const saveUser = async () => {
   const savedUser = {
-    UserId: originalUserValues.value.UserId,
     Email: originalUserValues.value.Email,
     Name: originalUserValues.value.Name,
     LastNameFather: originalUserValues.value.LastNameFather,
@@ -109,10 +134,14 @@ function saveUser() {
     CostCenter: originalUserValues.value.CostCenter,
     CspDepotId: originalUserValues.value.CspDepotId,
     Disable: originalUserValues.value.Disable,
-    Role: selectedRoleItem.value
+    Role: selectedRoleItem.value,
+    CostCenter: Number(originalUserValues.value.CostCenter),
+    CspDepotId: Number(originalUserValues.value.CspDepotId),
+    CspUserId: 0,
   }
 
-  console.log('Guardando usuario:', savedUser)
+  //console.log('Guardando usuario:', savedUser)
+  await userStore.saveNewUser(savedUser)
 
   isEdit.value = false
   resetForm()
@@ -297,6 +326,22 @@ function selectRole(item) {
         </div>
         <div class="flex">
           <div class="mb-5">
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Email
+            </label>
+            <InputComponent
+              v-model="originalUserValues.Email"
+              id="email"
+              type="email"
+              required
+              placeholder="Email..."
+              customClass="h-[2rem] w-[26rem]"
+              :disabled="!isEdit"
+            />
+          </div>
+        </div>
+        <div class="flex">
+          <div class="mb-5">
             <label
               for="password"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -361,7 +406,7 @@ function selectRole(item) {
           <div v-else class="flex">
             <div>
               <ButtonComponent
-                type="submit"
+                type="button"
                 icon="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"
                 label="Guardar"
                 custom-class="hover:bg-primary"

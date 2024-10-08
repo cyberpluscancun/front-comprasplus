@@ -34,11 +34,18 @@ export const useUserStore = defineStore('userStore', () => {
     return users.value.find((user) => user.UserId === String(id))
   }
 
+  const saveNewUser = async (data) => {
+    console.log('Guardando usuario:', data)
+    const response = await userService.post(`/api/v1/users`, data)
+    console.log(response)
+  }
+
   return {
     users,
     isLoading,
     error,
     loadUsers,
-    getUserByID
+    getUserByID,
+    saveNewUser
   }
 })
