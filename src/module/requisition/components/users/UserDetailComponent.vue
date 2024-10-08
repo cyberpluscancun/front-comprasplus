@@ -61,8 +61,8 @@ watch(
   }
 )
 
-const fetchUserById = (id) => {
-  const user = userStore.getUserByID(id)
+const fetchUserById = async (id) => {
+  const user = await userStore.getUserByID(id)
   if (user) {
     console.log(`Este es el user -> ${user}`)
     originalUserValues.value = { ...user }
