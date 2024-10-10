@@ -19,7 +19,7 @@ export const useDocumentStore = defineStore('documentStore', () => {
     try {
       const response = await documentService.get(`/api/v1/documents`)
       const data = response.data
-      console.log(data.documents)
+      console.log(data)
       documents.value = data.documents
         .map((document) => ({
           ...document,

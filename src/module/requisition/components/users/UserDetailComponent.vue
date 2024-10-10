@@ -91,7 +91,7 @@ watch(isEdit, (newValue) => {
   if (!newValue) {
     originalUserValues.value = { ...blankValues }
   }
-});
+})
 
 const fetchUserById = async (id) => {
   const user = await userStore.getUserByID(id)

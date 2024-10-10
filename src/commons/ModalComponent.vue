@@ -60,8 +60,9 @@ const saveNewDocument = () => {
   }
   console.log(newDocument)
   documentStore.saveDocument(newDocument)
-  documentEvent.isCreatingNewDocument = false
+  documentStore.documents.push(newDocument)
   documentStore.loadDocuments()
+  documentEvent.isCreatingNewDocument = false
 }
 
 const closeNewRequest = () => {
