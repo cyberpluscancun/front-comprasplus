@@ -7,11 +7,15 @@ import { useUserEvent } from '@/store/user/useUserEvent.js'
 import { useUserStore } from '@/store/user/useUserStore.js'
 import { roleItems } from '@/module/auth/composable/roles.js'
 import { useDocumentItemStore } from '@/store/document-item/useDocumentItemStore.js'
+import { useAuthStore } from '@/store/auth/useAuthStore'
 
 const route = useRoute()
 const paramsId = ref(route.params.id)
+const userLoginId = ref(0)
+const currentDate = ref('')
 const userEvent = useUserEvent()
 const userStore = useUserStore()
+const authStore = useAuthStore()
 const isEdit = ref(false)
 const isChecked1 = ref(false)
 const isChecked2 = ref(false)
@@ -25,6 +29,7 @@ let blankValues = {
   UserId: '',
   Email: '',
   Name: '',
+  Password: '',
   LastNameFather: '',
   LastNameMother: '',
   Picture: '',
@@ -40,6 +45,7 @@ const originalUserValues = ref({
   UserId: paramsId.value,
   Email: '',
   Name: '',
+  Password: '',
   LastNameFather: '',
   LastNameMother: '',
   Picture: '',
@@ -58,6 +64,8 @@ const formValues = computed(() => {
 onMounted(async () => {
   await userStore.loadUsers()
   await fetchUserById(paramsId.value)
+  userLoginId.value = await authStore.getUserId()
+  currentDate.value = (new Date()).toISOString()
 })
 
 watch(
@@ -126,6 +134,7 @@ const saveUser = async () => {
   const savedUser = {
     Email: originalUserValues.value.Email,
     Name: originalUserValues.value.Name,
+    Password: String(originalUserValues.value.Password),
     LastNameFather: originalUserValues.value.LastNameFather,
     LastNameMother: originalUserValues.value.LastNameMother,
     Picture: originalUserValues.value.Picture,
@@ -137,11 +146,14 @@ const saveUser = async () => {
     Role: selectedRoleItem.value,
     CostCenter: Number(originalUserValues.value.CostCenter),
     CspDepotId: Number(originalUserValues.value.CspDepotId),
-    CspUserId: 0,
+    CspUserId: 1,
+    CreateBy: userLoginId.value,
+    CreateOn: currentDate.value,
   }
 
   //console.log('Guardando usuario:', savedUser)
   await userStore.saveNewUser(savedUser)
+  await userStore.users.push(savedUser)
 
   isEdit.value = false
   resetForm()
@@ -349,7 +361,7 @@ function selectRole(item) {
               Contraseña
             </label>
             <InputComponent
-              v-model="originalUserValues.password"
+              v-model="originalUserValues.Password"
               id="password"
               type="password"
               required
