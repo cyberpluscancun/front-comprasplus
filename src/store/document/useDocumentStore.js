@@ -59,15 +59,6 @@ export const useDocumentStore = defineStore('documentStore', () => {
     return data.documents
   }
 
-  /*
-  const getDocumentsByQuery = (query) => {
-    filteredDocuments.value = documents.value.filter(
-      (document) => document.Title.includes(query) || document.FolioUuid.includes(query)
-    )
-    return filteredDocuments.value
-  }
-  */
-
   const saveDocument = async (document) => {
     try {
       const response = await documentService.post('/api/v1/documents', document)
