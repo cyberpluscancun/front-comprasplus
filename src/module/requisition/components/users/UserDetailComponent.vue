@@ -24,6 +24,7 @@ const selectedRoleItem = ref('')
 const selectedRoleText = ref('Seleccionar')
 const userRoleItems = roleItems
 let tempOriginalValues = ref({})
+const isNewUser = ref(false)
 
 let blankValues = {
   UserId: '',
@@ -58,14 +59,14 @@ const originalUserValues = ref({
 })
 
 const formValues = computed(() => {
-  return isEdit.value ? originalUserValues.value : blankValues;
+  return isEdit.value ? originalUserValues.value : blankValues
 })
 
 onMounted(async () => {
   await userStore.loadUsers()
   await fetchUserById(paramsId.value)
   userLoginId.value = await authStore.getUserId()
-  currentDate.value = (new Date()).toISOString()
+  currentDate.value = new Date().toISOString()
 })
 
 watch(
@@ -82,6 +83,7 @@ watch(
     if (isCreating) {
       console.log('Creando nuevo usuario, restableciendo formulario...')
       resetForm()
+      isNewUser.value = true
       userEvent.stopCreatingUser()
     }
   }
@@ -140,22 +142,27 @@ const saveUser = async () => {
     Picture: originalUserValues.value.Picture,
     Auth1: isChecked1.value,
     Auth2: isChecked2.value,
-    CostCenter: originalUserValues.value.CostCenter,
-    CspDepotId: originalUserValues.value.CspDepotId,
-    Disable: originalUserValues.value.Disable,
-    Role: selectedRoleItem.value,
     CostCenter: Number(originalUserValues.value.CostCenter),
     CspDepotId: Number(originalUserValues.value.CspDepotId),
+    Disable: originalUserValues.value.Disable,
+    Role: selectedRoleItem.value,
     CspUserId: 1,
     CreateBy: userLoginId.value,
-    CreateOn: currentDate.value,
+    CreateOn: currentDate.value
   }
 
-  //console.log('Guardando usuario:', savedUser)
-  await userStore.saveNewUser(savedUser)
-  await userStore.users.push(savedUser)
+  if (isNewUser.value) {
+    await userStore.saveNewUser(savedUser)
+    await userStore.users.push(savedUser)
+    console.log('Nuevo usuario guardado:', savedUser)
+  } else {
+    savedUser.UserId = paramsId.value 
+    await userStore.updateUser(savedUser) 
+    console.log('Usuario actualizado:', savedUser)
+  }
 
   isEdit.value = false
+  isNewUser.value = false // Restablece el estado después de guardar
   resetForm()
 }
 
@@ -403,7 +410,7 @@ function selectRole(item) {
             :disabled="!isEdit"
           />
         </div>
-        <div class="grid place-items-end">
+        <div v-if="paramsId" class="grid place-items-end">
           <div v-if="!isEdit">
             <div>
               <ButtonComponent
