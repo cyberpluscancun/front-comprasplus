@@ -13,6 +13,10 @@ export const userService = {
     return apiClient.put(url, data)
   },
 
+  path: (url, data) => {
+    return apiClient.patch(url, data)
+  },
+
   delete: (url, params = {}) => {
     return apiClient.delete(url, { params })
   }

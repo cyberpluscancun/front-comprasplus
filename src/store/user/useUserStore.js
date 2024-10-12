@@ -40,12 +40,21 @@ export const useUserStore = defineStore('userStore', () => {
     console.log(response)
   }
 
+  const updateUser = async (id, data) => {
+    console.log('Actualizando usuario con ID:', id)
+    console.log('Datos del usuario:', data)
+    const response = await userService.path(`/api/v1/users/${Number(id)}`, data)
+    console.log(response)
+    return response // Asegúrate de devolver la respuesta si es necesario
+  }
+
   return {
     users,
     isLoading,
     error,
     loadUsers,
     getUserByID,
-    saveNewUser
+    saveNewUser,
+    updateUser
   }
 })

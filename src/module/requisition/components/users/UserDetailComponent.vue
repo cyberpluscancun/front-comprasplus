@@ -156,8 +156,8 @@ const saveUser = async () => {
     await userStore.users.push(savedUser)
     console.log('Nuevo usuario guardado:', savedUser)
   } else {
-    savedUser.UserId = paramsId.value 
-    await userStore.updateUser(savedUser) 
+    let userId = Number(paramsId.value)
+    await userStore.updateUser(userId, savedUser)
     console.log('Usuario actualizado:', savedUser)
   }
 
