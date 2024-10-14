@@ -157,6 +157,7 @@ const saveUser = async () => {
     console.log('Nuevo usuario guardado:', savedUser)
   } else {
     let userId = Number(paramsId.value)
+    savedUser.UserId = userId
     await userStore.updateUser(userId, savedUser)
     console.log('Usuario actualizado:', savedUser)
   }
@@ -410,7 +411,7 @@ function selectRole(item) {
             :disabled="!isEdit"
           />
         </div>
-        <div v-if="paramsId" class="grid place-items-end">
+        <div class="grid place-items-end">
           <div v-if="!isEdit">
             <div>
               <ButtonComponent
