@@ -18,6 +18,11 @@ export const documentService = {
     return apiClient.post(url, data)
   },
 
+  export: (url, data) => {
+    console.log(data)
+    return apiClient.post(url, data)
+  },
+
   put: (url, data) => {
     return apiClient.put(url, data)
   },

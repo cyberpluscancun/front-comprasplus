@@ -16,6 +16,7 @@ const showAuth2Checkbox = ref(false)
 const documentStore = useDocumentStore()
 const blankValues = ref({})
 const documentItems = ref([])
+const exportError = ref(false)
 const documentValues = ref({
   DocumentId: 0,
   CostCenterId: 0,
@@ -80,6 +81,19 @@ const saveDocumentItem = async () => {
   await documentItemStore.saveDocumentItems(savedDocumentItem)
   documentItems.value.push(savedDocumentItem)
   resetForm()
+}
+
+const exportDocument = async () => {
+  if (!documentValues.value.Auth1 || !documentValues.value.Auth2) {
+    exportError.value = true
+    return
+  }
+
+  const data = {
+    FolioUuid: paramsFolio.value
+  }
+  await documentStore.exportDocument(data)
+  exportError.value = false
 }
 </script>
 
@@ -159,6 +173,7 @@ const saveDocumentItem = async () => {
                   <button
                     type="button"
                     class="text-text-white bg-primary h-[2rem] hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    @click="exportDocument"
                   >
                     Exportar
                   </button>

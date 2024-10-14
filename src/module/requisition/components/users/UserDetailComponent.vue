@@ -161,7 +161,7 @@ const saveUser = async () => {
     await userStore.updateUser(userId, savedUser)
     console.log('Usuario actualizado:', savedUser)
   }
-
+  await userStore.loadUsers()
   isEdit.value = false
   isNewUser.value = false // Restablece el estado después de guardar
   resetForm()

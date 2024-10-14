@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import UserMiniCardComponent from '@/module/requisition/components/users/UserMiniCardComponent.vue'
 import { useUserEvent } from '@/store/user/useUserEvent.js'
@@ -14,6 +14,13 @@ onMounted(async () => {
   await userStore.loadUsers()
   console.log(userStore.users)
 })
+
+watch(
+  () => userStore.users,
+  (newUsers) => {
+    console.log('Usuarios actualizados: ', newUsers)
+  }
+)
 
 const goToUserDetail = (id) => {
   console.log(id)

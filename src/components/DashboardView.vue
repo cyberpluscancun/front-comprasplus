@@ -20,8 +20,7 @@ const route = useRoute()
       <div>
         <div class="h-[3rem] bg-gray-900 text-zinc-950">
           <div>
-            
-              <img class="mt-8 mx-auto h-7 w-auto" src="@/assets/logo.png" alt="Compras+" />
+            <img class="mt-8 mx-auto h-7 w-auto" src="@/assets/logo.png" alt="Compras+" />
           </div>
         </div>
         <!-- Botón y formulario -->
