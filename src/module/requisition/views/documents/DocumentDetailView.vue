@@ -6,6 +6,7 @@ import { formatDate } from '@/services/format-date.js'
 import DocumentItemCardComponent from '@/module/requisition/components/documents/DocumentItemCardComponent.vue'
 import { useDocumentItemStore } from '@/store/document-item/useDocumentItemStore.js'
 import InputComponent from '@/commons/InputComponent.vue'
+import ButtonComponent from '@/commons/ButtonComponent.vue'
 
 const documentItemStore = useDocumentItemStore()
 const route = useRoute()
@@ -52,6 +53,9 @@ watch(
 
 watch(auth1, (newValue) => {
   showAuth2Checkbox.value = newValue
+  if (!newValue) {
+    auth2.value = false // Desmarca Auth2 si Auth1 se desmarca
+  }
 })
 
 const fetchDocumentsItemByFolio = async (folioUuid) => {
@@ -104,7 +108,7 @@ const exportDocument = async () => {
     <div class="m-3.5 mt-3.5">
       <nav class="h-[calc(100vh-87vh)] bg-purple rounded-lg">
         <div class="p-2">
-          <div class="flex  justify-between flex-col md:flex-row text-sm">
+          <div class="flex justify-between flex-col md:flex-row text-sm">
             <div id="col-1" class="w-full md:w-[15%] flex flex-col">
               <h1 class="font-bold text-lg">{{ documentValues.Title }}</h1>
               <h3 class="font-light">
@@ -122,12 +126,12 @@ const exportDocument = async () => {
               </div>
               <div class="flex">
                 <div class="flex items-center">
-                  <label class="font-bold">Autorización1</label>
-                  <input type="checkbox" v-model="auth1" />
+                  <label class="font-bold">Autorización 1:</label>
+                  <input class="ml-3" type="checkbox" v-model="auth1" />
                 </div>
-                <div v-if="documentValues.Auth1" class="flex items-center ml-4">
-                  <label class="font-bold">Autorización2</label>
-                  <input type="checkbox" v-model="auth2" />
+                <div v-if="showAuth2Checkbox" class="flex items-center ml-4">
+                  <label class="font-bold">Autorización 2:</label>
+                  <input class="ml-3" type="checkbox" v-model="auth2" />
                 </div>
               </div>
             </div>
@@ -173,7 +177,13 @@ const exportDocument = async () => {
                 :type="text"
               />
             </div>
-            <button @click="saveDocumentItem" class="bg-gray text-white">Agregar</button>
+            <div>
+              <ButtonComponent
+                label="Agregar"
+                @click="saveDocumentItem"
+                customClass="bg-gray w-[5rem] h-[2rem] text-white"
+              />
+            </div>
           </div>
         </form>
       </div>
@@ -199,7 +209,7 @@ const exportDocument = async () => {
 <style scoped>
 @media (max-width: 720px) {
   #item-card-view-container {
-    height: calc(100vh - 30rem); 
+    height: calc(100vh - 30rem);
   }
 }
 </style>
