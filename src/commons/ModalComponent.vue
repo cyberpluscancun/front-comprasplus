@@ -132,26 +132,26 @@ const selectDepot = (item) => {
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <DialogPanel
-              class="relative transform overflow-hidden rounded-lg bg-card text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+              class="relative transform overflow-hidden rounded-lg bg-card text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg min-h-[500px]"
             >
               <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
-                  <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                  <div class="text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">
                       Crear nuevo documento
                     </DialogTitle>
-                    <div class="mt-2">
+                    <div>
                       <form>
                         <div class="space-y-12">
                           <div class="border-b border-gray-900/10 pb-12">
-                            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div class="mt-3 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                               <div class="sm:col-span-5">
                                 <label
                                   for="first-name"
                                   class="block text-sm font-medium leading-6 text-gray-900"
                                   >Título</label
                                 >
-                                <div class="mt-2">
+                                <div class="mt-1">
                                   <input
                                     v-model="originalDocumentValues.Title"
                                     type="text"
@@ -169,7 +169,7 @@ const selectDepot = (item) => {
                                   class="block text-sm font-medium leading-6 text-gray-900"
                                   >Fecha</label
                                 >
-                                <div class="mt-2">
+                                <div class="mt-1">
                                   <input
                                     v-model="DocumentDate"
                                     disabled
@@ -188,7 +188,7 @@ const selectDepot = (item) => {
                                   class="block text-sm font-medium leading-6 text-gray-900"
                                   >Usuario</label
                                 >
-                                <div class="mt-2">
+                                <div class="mt-1">
                                   <input
                                     v-model="user.Email"
                                     id="usuario"
@@ -202,7 +202,7 @@ const selectDepot = (item) => {
                               </div>
 
                               <div class="sm:col-span-3">
-                                <div id="dropdown-role" class="w-[10rem] mb-3 ml-4">
+                                <div class="relative w-[10rem] mb-3 ml-4">
                                   <label
                                     for="lastNameMaternal"
                                     class="block text-sm font-medium text-gray-900 dark:text-white"
@@ -212,7 +212,6 @@ const selectDepot = (item) => {
 
                                   <button
                                     id="dropdownHelperRadioButton"
-                                    data-dropdown-toggle="dropdownHelperRadio"
                                     class="text-text-white h-[2.3rem] w-full mt-2 bg-gray hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                     type="button"
                                     @click="toggleDropdownDepot"
@@ -237,7 +236,8 @@ const selectDepot = (item) => {
 
                                   <div
                                     v-if="isDropDownDepotOpen"
-                                    class="absolute z-99 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
+                                    class="absolute z-50 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
+                                    style="max-height: 200px; overflow-y: auto"
                                   >
                                     <ul
                                       class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
@@ -292,6 +292,7 @@ const selectDepot = (item) => {
                                   <div
                                     v-if="isDropDownCostOpen"
                                     class="absolute z-99 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
+                                    style="max-height: 200px; overflow-y: auto"
                                   >
                                     <ul
                                       class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
