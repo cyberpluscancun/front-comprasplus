@@ -179,32 +179,24 @@ function selectRole(item) {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 gap-2">
-    <div class="h-auto rounded-lg p-2 bg-card">
-      <form class="p-3">
-        <div class="mb-2">
-          <label
-            for="firstName"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Nombres
-          </label>
+  <div class="grid grid-cols-1 gap-2 p-4 md:p-6">
+    <div class="h-auto rounded-lg p-4 bg-card">
+      <form class="space-y-4">
+        <div>
+          <label for="firstName" class="block text-sm font-medium text-gray-900"> Nombres </label>
           <InputComponent
             v-model="originalUserValues.Name"
             id="firstName"
             type="text"
             required
             placeholder="Nombres..."
-            customClass="h-[2rem] w-[50%]"
+            customClass="h-10 w-full md:w-1/2"
             :disabled="!isEdit"
           />
         </div>
-        <div class="flex">
-          <div class="mb-2">
-            <label
-              for="lastNamePaternal"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+        <div class="flex flex-col md:flex-row md:space-x-4">
+          <div>
+            <label for="lastNamePaternal" class="block text-sm font-medium text-gray-900">
               Apellido Paterno
             </label>
             <InputComponent
@@ -213,15 +205,12 @@ function selectRole(item) {
               type="text"
               required
               placeholder="Apellido Paterno..."
-              customClass="h-[2rem]"
+              customClass="h-10"
               :disabled="!isEdit"
             />
           </div>
-          <div class="ml-4 mb-2">
-            <label
-              for="lastNameMaternal"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+          <div>
+            <label for="lastNameMaternal" class="block text-sm font-medium text-gray-900">
               Apellido Materno
             </label>
             <InputComponent
@@ -230,57 +219,29 @@ function selectRole(item) {
               type="text"
               required
               placeholder="Apellido Materno..."
-              customClass="h-[2rem]"
+              customClass="h-10"
               :disabled="!isEdit"
             />
           </div>
-          <div id="dropdown-role" class="w-[10rem] mb-3 ml-4">
-            <label
-              for="lastNameMaternal"
-              class="block text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Roles
-            </label>
-
+          <div id="dropdown-role" class="mb-3">
+            <label for="role" class="block text-sm font-medium text-gray-900"> Roles </label>
             <button
-              id="dropdownHelperRadioButton"
-              data-dropdown-toggle="dropdownHelperRadio"
-              class="text-text-white h-[2rem] mt-2 bg-gray hover:bg-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              class="w-full h-10 mt-2 bg-gray hover:bg-primary focus:ring-4 focus:outline-none font-medium rounded-lg text-sm inline-flex items-center"
               type="button"
               :disabled="!isEdit"
               @click="toggleDropdownRole"
             >
               {{ selectedRoleText }}
-              <svg
-                class="w-2.5 h-2.5 ms-2.5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 10 6"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m1 1 4 4 4-4"
-                />
-              </svg>
             </button>
-
             <!-- Menú desplegable -->
             <div
               v-if="isDropDownRoleOpen"
-              id="dropdownHelperRadio"
-              class="absolute z-50 w-48 bg-background rounded-lg shadow dark:bg-gray-700"
+              class="absolute z-50 w-full bg-background rounded-lg shadow"
             >
-              <ul
-                class="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownHelperRadioButton"
-              >
+              <ul class="p-3 space-y-1 text-sm text-gray-700">
                 <li v-for="(item, index) in userRoleItems" :key="index">
                   <div
-                    class="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+                    class="flex items-center p-2 rounded hover:bg-gray-100"
                     @click="selectRole(item)"
                   >
                     <input
@@ -289,83 +250,32 @@ function selectRole(item) {
                       type="radio"
                       :value="item"
                       v-model="selectedRoleItem"
-                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                     />
-                    <label
-                      :for="'radio-item-' + index"
-                      class="w-full ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                      >{{ item }}</label
-                    >
+                    <label :for="'radio-item-' + index" class="ml-2 text-sm">{{ item }}</label>
                   </div>
                 </li>
               </ul>
             </div>
           </div>
-
-          <div id="checkbox-auths" class="mb-3 ml-5 px-4">
-            <label
-              for="lastNameMaternal"
-              class="block text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Autorizaciones
-            </label>
-
-            <div class="mt-1">
-              <div class="flex items-center mb-4">
-                <input
-                  :checked="isChecked1"
-                  id="checkbox-1"
-                  type="checkbox"
-                  :disabled="!isEdit"
-                  @change="isChecked1 = !isChecked1"
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  for="default-checkbox"
-                  class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >Autorización 1</label
-                >
-              </div>
-              <div class="flex items-center">
-                <input
-                  :checked="isChecked2"
-                  id="checkbox-2"
-                  type="checkbox"
-                  :disabled="!isEdit"
-                  @change="isChecked2 = !isChecked2"
-                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  for="checked-checkbox"
-                  class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                  >Autorización 2</label
-                >
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="flex">
-          <div class="mb-5">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Email
-            </label>
-            <InputComponent
-              v-model="originalUserValues.Email"
-              id="email"
-              type="email"
-              required
-              placeholder="Email..."
-              customClass="h-[2rem] w-[26rem]"
-              :disabled="!isEdit"
-            />
-          </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-900"> Email </label>
+          <InputComponent
+            v-model="originalUserValues.Email"
+            id="email"
+            type="email"
+            required
+            placeholder="Email..."
+            customClass="h-10 w-full md:w-1/2"
+            :disabled="!isEdit"
+          />
         </div>
-        <div class="flex">
-          <div class="mb-5">
-            <label
-              for="password"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+
+        <div class="flex flex-col md:flex-row md:space-x-4">
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-900">
               Contraseña
             </label>
             <InputComponent
@@ -374,15 +284,12 @@ function selectRole(item) {
               type="password"
               required
               placeholder="Contraseña..."
-              customClass="h-[2rem] w-[16rem]"
+              customClass="h-10"
               :disabled="!isEdit"
             />
           </div>
-          <div class="ml-4 mb-5">
-            <label
-              for="repeatPassword"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
+          <div>
+            <label for="repeatPassword" class="block text-sm font-medium text-gray-900">
               Repetir contraseña
             </label>
             <InputComponent
@@ -391,58 +298,46 @@ function selectRole(item) {
               type="password"
               required
               placeholder="Contraseña..."
-              customClass="w-[16rem]"
+              customClass="h-10"
               :disabled="!isEdit"
             />
           </div>
         </div>
 
-        <div class="mb-5">
-          <label
-            for="fileInput"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
+        <div>
+          <label for="fileInput" class="block text-sm font-medium text-gray-900">
             Foto de perfil
           </label>
           <InputComponent
             id="fileInput"
             type="file"
-            custom-class="p-[0.1rem] bg-background w-[50%] text-gray-900 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
+            custom-class="bg-gray-50 w-full cursor-pointer"
             :disabled="!isEdit"
           />
         </div>
-        <div class="grid place-items-end">
-          <div v-if="!isEdit">
-            <div>
-              <ButtonComponent
-                type="button"
-                icon="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
-                label="Editar"
-                custom-class="hover:bg-primary"
-                @click="alternateEdit"
-              />
-            </div>
-          </div>
-          <div v-else class="flex">
-            <div>
-              <ButtonComponent
-                type="button"
-                icon="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"
-                label="Guardar"
-                custom-class="hover:bg-primary"
-                @click="saveUser"
-              />
-            </div>
 
-            <div class="ml-4">
-              <ButtonComponent
-                type="button"
-                icon="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2m-8 1V4m0 12-4-4m4 4 4-4"
-                label="Cancelar"
-                custom-class="hover:bg-error"
-                @click="cancelEdit"
-              />
-            </div>
+        <div class="flex justify-end">
+          <div v-if="!isEdit">
+            <ButtonComponent
+              type="button"
+              label="Editar"
+              custom-class="hover:bg-primary"
+              @click="alternateEdit"
+            />
+          </div>
+          <div v-else class="flex space-x-4">
+            <ButtonComponent
+              type="button"
+              label="Guardar"
+              custom-class="hover:bg-primary"
+              @click="saveUser"
+            />
+            <ButtonComponent
+              type="button"
+              label="Cancelar"
+              custom-class="hover:bg-error"
+              @click="cancelEdit"
+            />
           </div>
         </div>
       </form>
@@ -450,4 +345,6 @@ function selectRole(item) {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
