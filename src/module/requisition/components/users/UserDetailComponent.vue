@@ -124,8 +124,8 @@ function cancelEdit() {
 
 function resetForm() {
   isEdit.value = true
-  originalUserValues.value = { ...blankValues } // Asegúrate de hacer una copia
-  console.log(originalUserValues.value) // Verifica que todos los campos se hayan actualizado
+  originalUserValues.value = { ...blankValues } 
+  console.log(originalUserValues.value) 
   isChecked1.value = false
   isChecked2.value = false
   selectedRoleItem.value = ''
@@ -233,7 +233,6 @@ function selectRole(item) {
             >
               {{ selectedRoleText }}
             </button>
-            <!-- Menú desplegable -->
             <div
               v-if="isDropDownRoleOpen"
               class="absolute z-50 w-full bg-background rounded-lg shadow"

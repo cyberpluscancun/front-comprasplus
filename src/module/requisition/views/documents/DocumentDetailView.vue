@@ -54,7 +54,7 @@ watch(
 watch(auth1, (newValue) => {
   showAuth2Checkbox.value = newValue
   if (!newValue) {
-    auth2.value = false // Desmarca Auth2 si Auth1 se desmarca
+    auth2.value = false 
   }
 })
 
@@ -86,6 +86,7 @@ const saveDocumentItem = async () => {
   console.log(savedDocumentItem)
   await documentItemStore.saveDocumentItems(savedDocumentItem)
   documentItems.value.push(savedDocumentItem)
+  fetchDocumentsItemByFolio(route.params.folioUuid)
   resetForm()
 }
 
@@ -155,9 +156,9 @@ const exportDocument = async () => {
               <div class="flex-1">
                 <label for="quantity">Cantidad</label>
                 <InputComponent
-                  :id="quantity"
+                  id="quantity"
                   :modelValue="documentItemValues.Quantity"
-                  :type="number"
+                  type="number"
                 />
               </div>
               <div class="flex-1 md:ml-3.5">

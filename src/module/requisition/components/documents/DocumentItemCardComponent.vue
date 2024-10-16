@@ -145,7 +145,6 @@ function expandCard() {
 </template>
 
 <style scoped>
-/* Media query para dispositivos móviles */
 @media (max-width: 720px) {
   #item-card-view {
     padding: 1rem;

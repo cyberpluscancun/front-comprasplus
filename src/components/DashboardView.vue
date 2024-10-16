@@ -36,7 +36,6 @@ const route = useRoute()
 
     <!-- Right side navigation -->
     <div id="right-side-navigation" class="w-full h-full bg-background">
-      <!-- Aquí se carga el contenido de las rutas hijas -->
       <RouterView />
     </div>
   </div>
